@@ -694,6 +694,53 @@ export function Warehouse() {
     }
   };
 
+  // SESSION G: Collection check before collecting
+  const handleCollectionCheck = async (parcelId) => {
+    setCollectingParcelId(parcelId);
+    try {
+      const response = await axios.get(`${API}/warehouse/parcels/${parcelId}/collection-check`, { withCredentials: true });
+      setCollectionCheckData(response.data);
+      
+      // If paid and no warning, collect immediately
+      if (!response.data.requires_confirmation && response.data.can_collect) {
+        await handleCollectionConfirm('', parcelId);
+        return;
+      }
+      
+      setCollectionDialogOpen(true);
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Failed to check collection eligibility');
+    }
+  };
+
+  // SESSION G: Confirm collection (with optional note)
+  const handleCollectionConfirm = async (note, overrideParcelId) => {
+    const pid = overrideParcelId || collectingParcelId;
+    if (!pid) return;
+    
+    setCollectingLoading(true);
+    try {
+      const response = await axios.post(`${API}/warehouse/parcels/${pid}/collect`, {
+        confirmation_note: note
+      }, { withCredentials: true });
+      
+      if (response.data.admin_notified) {
+        toast.warning('Parcel collected. Admin has been notified about outstanding payment.');
+      } else {
+        toast.success('Parcel collected successfully');
+      }
+      
+      setCollectionDialogOpen(false);
+      setCollectionCheckData(null);
+      setCollectingParcelId(null);
+      fetchParcels();
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Failed to collect parcel');
+    } finally {
+      setCollectingLoading(false);
+    }
+  };
+
   const handlePhotoUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file || !selectedParcel) return;
