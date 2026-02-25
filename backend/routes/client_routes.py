@@ -132,12 +132,28 @@ async def list_clients_with_stats(
     
     return result
 
-@router.get("/clients/{client_id}", response_model=Client)
+@router.get("/clients/{client_id}")
 async def get_client(client_id: str, tenant_id: str = Depends(get_tenant_id)):
-    """Get single client"""
+    """Get single client with auto-calculated total_amount_spent"""
     client = await db.clients.find_one({"id": client_id, "tenant_id": tenant_id}, {"_id": 0})
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
+    
+    # Auto-calculate total_amount_spent from paid invoices
+    pipeline = [
+        {"$match": {"client_id": client_id, "tenant_id": tenant_id, "status": {"$in": ["paid", "partial"]}}},
+        {"$group": {"_id": None, "total": {"$sum": "$paid_amount"}}}
+    ]
+    result = await db.invoices.aggregate(pipeline).to_list(1)
+    total_spent = result[0]["total"] if result else 0.0
+    
+    # Update in DB
+    await db.clients.update_one(
+        {"id": client_id, "tenant_id": tenant_id},
+        {"$set": {"total_amount_spent": total_spent}}
+    )
+    client["total_amount_spent"] = total_spent
+    
     return client
 
 @router.post("/clients", response_model=Client)
