@@ -214,7 +214,13 @@ export function Clients() {
       billing_address: client.billing_address || '',
       vat_number: client.vat_number || '',
       payment_terms_days: client.payment_terms_days,
-      default_currency: client.default_currency
+      default_currency: client.default_currency,
+      position: client.position || '',
+      primary_place_of_business: client.primary_place_of_business || '',
+      nature_of_relationship: client.nature_of_relationship || 'regular',
+      owner: client.owner || '',
+      frequency_of_business: client.frequency_of_business || 'monthly',
+      estimated_value_per_trip: client.estimated_value_per_trip || 0
     });
     setDialogOpen(true);
   };
