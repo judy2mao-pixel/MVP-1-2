@@ -541,8 +541,8 @@ async def main():
     # Create shipments and invoices for trips
     await create_shipments_and_invoices(tenant_id, user_id, clients, trips, warehouses)
     
-    # Create additional warehouse parcels
-    await create_additional_warehouse_parcels(tenant_id, user_id, clients, warehouses, count=50)
+    # Create additional warehouse parcels (increased to reach ~400 total)
+    await create_additional_warehouse_parcels(tenant_id, user_id, clients, warehouses, count=100)
     
     # Print summary
     await print_summary(tenant_id)
