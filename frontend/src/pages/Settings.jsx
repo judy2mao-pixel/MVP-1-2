@@ -41,7 +41,7 @@ import { toast } from 'sonner';
 import { 
   Building2, Save, Loader2, Calculator, Bell, Database, 
   Upload, Download, RefreshCw, Shield, Warehouse, DollarSign,
-  Plus, Pencil, Trash2, AlertTriangle, FileSpreadsheet, Users, FileText, X, MessageSquare
+  Plus, Pencil, Trash2, AlertTriangle, FileSpreadsheet, Users, FileText, X, MessageSquare, Printer
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
