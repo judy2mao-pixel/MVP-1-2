@@ -53,11 +53,28 @@ class ServexAPITester:
             else:
                 raise ValueError(f"Unsupported HTTP method: {method}")
             
+            # Handle different response types
+            content_type = response.headers.get('content-type', '').lower()
+            
+            if 'application/json' in content_type:
+                # JSON response
+                response_data = response.json() if response.content else {}
+            elif 'application/pdf' in content_type or 'text/csv' in content_type:
+                # Binary/text response (PDF, CSV)
+                response_data = {
+                    "content_length": len(response.content),
+                    "content_type": content_type,
+                    "has_content": len(response.content) > 0
+                }
+            else:
+                # Plain text or other
+                response_data = response.text if response.content else ""
+            
             # Return structured response
             return {
                 "status_code": response.status_code,
                 "success": response.status_code < 400,
-                "data": response.json() if response.content and response.headers.get('content-type', '').startswith('application/json') else response.text,
+                "data": response_data,
                 "headers": dict(response.headers)
             }
         except requests.RequestException as e:
