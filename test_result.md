@@ -437,28 +437,22 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: |
-      ROUND 3: All requested features implemented. Please test the frontend:
+      ROUND 4: Invoice PDF template fully implemented matching the provided Servex template. 
+      All previous features still working. Please run comprehensive frontend tests.
       
-      1. FINANCE TAB BAR: Now uses sidebar color #3C3F42 with gold active tab #E8DC88
-      2. WHATSAPP TEMPLATES: Fixed JSX nesting bug - templates now visible with editor/preview
-      3. ADD CLIENT DIALOG: Now has max-h-[90vh] overflow-y-auto for scrollability
-      4. TRIP WORKSHEETS: Backend now pulls capacity from vehicle (fleet) data, fallback to trip defaults
-      5. PRINTNODE: Full integration - Settings > PrintNode tab with API key config, printer list, test print, job history
-      6. COLLECTION MODE: Working in Warehouse page with warning dialog for unpaid parcels
-      7. CLIENT CSV: Export/Import buttons on Clients page
-      8. CLIENT STATEMENT PDF: Download from Clients page dropdown menu
-      
-      Test flow for each page:
-      - Login: admin@servex.com / Servex2026!
-      - Dashboard: Verify KPIs show data (400 shipments, 50 clients)
-      - Parcel Intake: Verify 3 rows fit without overlap
-      - Warehouse: Verify filter button visible, collection mode toggle works
-      - Finance: Tab bar matches sidebar color, client statements load, trip worksheets show data
-      - Clients: Export CSV button works, Add Client dialog scrollable, Statement PDF in dropdown
-      - Settings: WhatsApp tab shows 4 templates with editor, PrintNode tab shows connection form
-      - Trips: Data loads correctly with 12 trips
-      
+      Login: admin@servex.com / Servex2026!
       Frontend URL: https://multi-warehouse-qa.preview.emergentagent.com
+      
+      Test these flows:
+      1. Login and Dashboard (verify data loads)
+      2. Parcel Intake (3 rows fit, no overlap)
+      3. Warehouse (filters visible, collection mode works)
+      4. Finance (tab bar color matches sidebar, all 4 tabs work, can download invoice PDF)
+      5. Clients (CSV export/import, Statement PDF, Add Client dialog scrollable)
+      6. Settings - WhatsApp (templates visible and editable)
+      7. Settings - PrintNode (configuration form visible)
+      8. Trips (12 trips listed)
+      9. Finance Invoice Details - click an invoice and download PDF
   - agent: "testing"
     message: |
       Comprehensive backend API testing completed successfully - 100% success rate (20/20 tests passed).
