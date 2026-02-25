@@ -566,6 +566,7 @@ export function Clients() {
               </form>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
 
         {/* Search and Filters */}
