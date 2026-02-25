@@ -192,6 +192,13 @@ export function Warehouse() {
   const [collectionBarcode, setCollectionBarcode] = useState('');
   const [collectionScanning, setCollectionScanning] = useState(false);
   const collectionBarcodeRef = useRef(null);
+  
+  // Session G: Collection mode state
+  const [collectionMode, setCollectionMode] = useState(false);
+  const [collectionCheckData, setCollectionCheckData] = useState(null);
+  const [collectionDialogOpen, setCollectionDialogOpen] = useState(false);
+  const [collectingParcelId, setCollectingParcelId] = useState(null);
+  const [collectingLoading, setCollectingLoading] = useState(false);
 
   // Initialize with user's default warehouse
   useEffect(() => {
