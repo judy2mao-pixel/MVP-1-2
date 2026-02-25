@@ -1939,6 +1939,15 @@ export function Warehouse() {
             )}
           </DialogContent>
         </Dialog>
+
+        {/* Session G: Collection Warning Dialog */}
+        <CollectionWarningDialog
+          open={collectionDialogOpen}
+          onOpenChange={setCollectionDialogOpen}
+          checkData={collectionCheckData}
+          onConfirm={handleCollectionConfirm}
+          loading={collectingLoading}
+        />
       </div>
     </>
   );
