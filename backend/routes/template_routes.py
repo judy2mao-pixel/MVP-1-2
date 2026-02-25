@@ -113,11 +113,12 @@ async def get_whatsapp_template(
 @router.put("/templates/whatsapp/{template_id}")
 async def update_whatsapp_template(
     template_id: str,
-    message: str,
+    data: dict,
     tenant_id: str = Depends(get_tenant_id),
     user: dict = Depends(get_current_user)
 ):
     """Update template message (SESSION H)"""
+    message = data.get("message", "")
     result = await db.whatsapp_templates.update_one(
         {"id": template_id, "tenant_id": tenant_id},
         {
