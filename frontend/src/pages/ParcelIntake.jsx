@@ -1056,10 +1056,10 @@ export function ParcelIntake() {
           </div>
         </div>
 
-        {/* BOTTOM SECTION - 70% Table */}
-        <div className="flex-1 overflow-auto bg-[#f5f5f5] p-4">
-          <Card className="bg-white h-full">
-            <CardContent className="p-0">
+        {/* BOTTOM SECTION - Table */}
+        <div className="flex-1 overflow-auto bg-[#f5f5f5] p-3">
+          <Card className="bg-white h-full flex flex-col">
+            <CardContent className="p-0 flex-1 overflow-auto">
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse" data-testid="parcel-table">
                   {/* Fixed header */}
