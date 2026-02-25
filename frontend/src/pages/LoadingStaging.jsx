@@ -721,7 +721,7 @@ export function LoadingStaging() {
 
         {/* Counters - minimal borderless text stats */}
         {selectedTrip && (
-          <div className="flex items-center gap-6 px-1 text-sm">
+          <div className="flex items-center gap-6 px-1 text-sm mt-4">
             {mode === 'loading' ? (
               <>
                 <span className="text-gray-500">Ready: <span className="font-bold text-gray-900">{warehouseCount}</span> <span className="text-gray-400">({warehouseWeight.toFixed(1)} kg)</span></span>
