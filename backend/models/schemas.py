@@ -290,6 +290,10 @@ class TripExpenseBase(BaseModel):
     expense_date: str  # Required
     description: Optional[str] = None
     receipt_url: Optional[str] = None
+    # Session I M-01: Expense Attachments
+    attachment: Optional[str] = None  # Base64 encoded file
+    attachment_filename: Optional[str] = None
+    attachment_type: Optional[str] = None  # image/pdf
 
 class TripExpenseCreate(TripExpenseBase):
     pass
@@ -301,6 +305,9 @@ class TripExpenseUpdate(BaseModel):
     expense_date: Optional[str] = None
     description: Optional[str] = None
     receipt_url: Optional[str] = None
+    attachment: Optional[str] = None
+    attachment_filename: Optional[str] = None
+    attachment_type: Optional[str] = None
 
 class TripExpense(TripExpenseBase):
     model_config = ConfigDict(extra="ignore")
