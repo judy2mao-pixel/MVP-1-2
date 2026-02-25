@@ -1302,6 +1302,12 @@ export function Warehouse() {
                                 <Printer className="h-4 w-4 mr-2" />
                                 Print Label
                               </DropdownMenuItem>
+                              {parcel.status === 'arrived' && (
+                                <DropdownMenuItem onClick={() => handleCollectionCheck(parcel.id)}>
+                                  <Check className="h-4 w-4 mr-2" />
+                                  Collect Parcel
+                                </DropdownMenuItem>
+                              )}
                               <DropdownMenuSeparator />
                               <DropdownMenuItem 
                                 onClick={() => handleSingleDelete(parcel.id)}
