@@ -209,6 +209,129 @@ async def delete_client(client_id: str, tenant_id: str = Depends(get_tenant_id))
         raise HTTPException(status_code=404, detail="Client not found")
     return {"message": "Client deleted"}
 
+
+# ============ CSV EXPORT/IMPORT ============
+
+@router.get("/clients/export/csv")
+async def export_clients_csv(tenant_id: str = Depends(get_tenant_id)):
+    """Export all clients to CSV (Session E)"""
+    clients = await db.clients.find({"tenant_id": tenant_id}, {"_id": 0}).to_list(5000)
+    
+    output = io.StringIO()
+    fields = [
+        "name", "company_name", "email", "phone", "vat_number",
+        "default_rate_value", "default_currency", "position",
+        "primary_place_of_business", "nature_of_relationship",
+        "owner", "frequency_of_business", "estimated_value_per_trip",
+        "total_amount_spent"
+    ]
+    
+    writer = csv.DictWriter(output, fieldnames=fields)
+    writer.writeheader()
+    
+    for client in clients:
+        row = {}
+        for f in fields:
+            val = client.get(f)
+            if val is None:
+                if f == "default_currency":
+                    val = "ZAR"
+                elif f == "nature_of_relationship":
+                    val = "Customer"
+                elif f == "total_amount_spent":
+                    val = 0.0
+                else:
+                    val = ""
+            row[f] = val
+        writer.writerow(row)
+    
+    output.seek(0)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=clients.csv"}
+    )
+
+
+@router.post("/clients/import/csv")
+async def import_clients_csv(
+    file: UploadFile = File(...),
+    tenant_id: str = Depends(get_tenant_id)
+):
+    """Import clients from CSV - creates new or updates existing by name (Session E)"""
+    content = await file.read()
+    decoded = content.decode("utf-8")
+    reader = csv.DictReader(io.StringIO(decoded))
+    
+    created = 0
+    updated = 0
+    errors = []
+    
+    for i, row in enumerate(reader):
+        try:
+            name = row.get("name", "").strip()
+            if not name:
+                errors.append(f"Row {i+1}: Missing name field")
+                continue
+            
+            client_data = {
+                "name": name,
+                "company_name": row.get("company_name", "").strip() or None,
+                "email": row.get("email", "").strip() or None,
+                "phone": row.get("phone", "").strip() or None,
+                "vat_number": row.get("vat_number", "").strip() or None,
+                "default_currency": row.get("default_currency", "ZAR").strip() or "ZAR",
+                "position": row.get("position", "").strip() or None,
+                "primary_place_of_business": row.get("primary_place_of_business", "").strip() or None,
+                "nature_of_relationship": row.get("nature_of_relationship", "Customer").strip() or "Customer",
+                "owner": row.get("owner", "").strip() or None,
+                "frequency_of_business": row.get("frequency_of_business", "").strip() or None,
+                "updated_at": datetime.now(timezone.utc).isoformat()
+            }
+            
+            # Handle numeric fields
+            rate_val = row.get("default_rate_value", "").strip()
+            if rate_val:
+                try:
+                    client_data["default_rate_value"] = float(rate_val)
+                except ValueError:
+                    pass
+            
+            est_val = row.get("estimated_value_per_trip", "").strip()
+            if est_val:
+                try:
+                    client_data["estimated_value_per_trip"] = float(est_val)
+                except ValueError:
+                    pass
+            
+            # Check if client exists
+            existing = await db.clients.find_one({"tenant_id": tenant_id, "name": name})
+            
+            if existing:
+                await db.clients.update_one(
+                    {"tenant_id": tenant_id, "name": name},
+                    {"$set": client_data}
+                )
+                updated += 1
+            else:
+                client_data["id"] = str(uuid.uuid4())
+                client_data["tenant_id"] = tenant_id
+                client_data["status"] = "active"
+                client_data["aliases"] = []
+                client_data["total_amount_spent"] = 0.0
+                client_data["created_at"] = datetime.now(timezone.utc).isoformat()
+                await db.clients.insert_one(client_data)
+                created += 1
+        except Exception as e:
+            errors.append(f"Row {i+1}: {str(e)}")
+    
+    return {
+        "success": True,
+        "created": created,
+        "updated": updated,
+        "errors": errors
+    }
+
 # ============ CLIENT RATES ROUTES ============
 
 @router.get("/clients/{client_id}/rate")
