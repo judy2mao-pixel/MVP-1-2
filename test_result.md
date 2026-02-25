@@ -230,6 +230,81 @@ backend:
         agent: "testing"
         comment: "WhatsApp template APIs working - Retrieved 4 default templates (invoice_sent, invoice_overdue, statement_ready, collection_ready)"
 
+  - task: "CSV Export Endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/client_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "NEW: CSV export endpoint implemented for clients"
+      - working: true
+        agent: "testing"
+        comment: "CSV export working perfectly - Returns 5669 bytes of valid CSV data with proper content-type headers (text/csv) and client data including extended fields"
+
+  - task: "Collection Check Endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/warehouse_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "NEW: Collection eligibility check endpoint implemented"
+      - working: true
+        agent: "testing"
+        comment: "Collection check working correctly - Returns can_collect status, payment information, and warnings for unpaid parcels"
+
+  - task: "Collect Parcel Endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/warehouse_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "NEW: Parcel collection endpoint with admin notifications"
+      - working: true
+        agent: "testing"
+        comment: "Parcel collection working perfectly - Successfully collects parcels, updates status to 'collected', and sends admin notifications for unpaid items"
+
+  - task: "Client Statement PDF Endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/finance_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "NEW: Client statement PDF generation endpoint"
+      - working: true
+        agent: "testing"
+        comment: "PDF generation working correctly - Generates valid 3144-byte PDF files with proper application/pdf content-type and client statement data"
+
+  - task: "Client GET with total_amount_spent"
+    implemented: true
+    working: true
+    file: "backend/routes/client_routes.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "NEW: Auto-calculated total_amount_spent field on client GET"
+      - working: true
+        agent: "testing"
+        comment: "Client GET endpoint working with total_amount_spent field - Correctly calculates and returns total spent amount from paid invoices"
+
 frontend:
   - task: "Parcel Intake UI (3rd row overlap fix)"
     implemented: true
