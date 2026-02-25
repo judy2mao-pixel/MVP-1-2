@@ -94,6 +94,14 @@ class ClientBase(BaseModel):
     default_currency: str = "ZAR"
     default_rate_type: str = "per_kg"
     default_rate_value: float = 36.0
+    # Session E: Extended fields
+    position: Optional[str] = None
+    primary_place_of_business: Optional[str] = None
+    nature_of_relationship: Optional[str] = None
+    owner: Optional[str] = None
+    frequency_of_business: Optional[str] = None
+    estimated_value_per_trip: Optional[float] = None
+    total_amount_spent: Optional[float] = None
 
 class ClientCreate(ClientBase):
     pass
@@ -113,6 +121,13 @@ class ClientUpdate(BaseModel):
     default_rate_type: Optional[str] = None
     default_rate_value: Optional[float] = None
     status: Optional[ClientStatus] = None
+    # Session E: Extended fields
+    position: Optional[str] = None
+    primary_place_of_business: Optional[str] = None
+    nature_of_relationship: Optional[str] = None
+    owner: Optional[str] = None
+    frequency_of_business: Optional[str] = None
+    estimated_value_per_trip: Optional[float] = None
 
 class Client(ClientBase):
     model_config = ConfigDict(extra="ignore")
