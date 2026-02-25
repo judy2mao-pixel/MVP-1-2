@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { Checkbox } from '../components/ui/checkbox';
 import { Badge } from '../components/ui/badge';
 import WhatsAppTemplateEditor from '../components/WhatsAppTemplateEditor';
+import PrintNodeSettings from '../components/PrintNodeSettings';
 import {
   Dialog,
   DialogContent,
