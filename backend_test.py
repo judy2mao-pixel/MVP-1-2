@@ -10,7 +10,7 @@ import json
 from datetime import datetime, timedelta
 
 class ServexBackendTester:
-    def __init__(self, base_url="https://b0755750-557b-4305-9562-6d93f6b51eb8.preview.emergentagent.com"):
+    def __init__(self, base_url="https://multi-warehouse-qa.preview.emergentagent.com"):
         self.base_url = base_url
         self.session = requests.Session()
         self.session.headers.update({'Content-Type': 'application/json'})

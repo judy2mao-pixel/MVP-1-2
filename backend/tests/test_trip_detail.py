@@ -20,7 +20,7 @@ import os
 import uuid
 from datetime import datetime
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://erp-logistics-dev.preview.emergentagent.com')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://multi-warehouse-qa.preview.emergentagent.com')
 SESSION_TOKEN = "demo_trips_session_1771084342772"
 TRIP_ID = "trip-1"  # Trip S27 with parcels
 

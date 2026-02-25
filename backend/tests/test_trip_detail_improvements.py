@@ -13,7 +13,7 @@ import os
 import uuid
 from datetime import datetime
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://erp-logistics-dev.preview.emergentagent.com')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://multi-warehouse-qa.preview.emergentagent.com')
 TRIP_ID = "863a0a83-e73c-4701-874a-22886c22d306"  # Trip T001
 
 

@@ -7,7 +7,7 @@ import requests
 import os
 from datetime import datetime, timedelta
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://erp-logistics-dev.preview.emergentagent.com').rstrip('/')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://multi-warehouse-qa.preview.emergentagent.com').rstrip('/')
 SESSION_TOKEN = os.environ.get('TEST_SESSION_TOKEN', 'test_fleet_session_1771018872390')
 
 # Shared session for authenticated requests
