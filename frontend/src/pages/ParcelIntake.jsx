@@ -811,7 +811,7 @@ export function ParcelIntake() {
           </div>
 
           {/* Three dropdowns */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             {/* Client/Sender */}
             <div>
               <Label className="text-sm font-medium">Select Client/Sender *</Label>
