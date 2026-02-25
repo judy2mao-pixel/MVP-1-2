@@ -562,10 +562,10 @@ Servex Holdings`;
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList style={{ backgroundColor: '#1C2B1E' }} className="grid w-full grid-cols-4 gap-2 p-2 rounded-lg h-auto">
+          <TabsList style={{ backgroundColor: '#3C3F42' }} className="grid w-full grid-cols-4 gap-2 p-2 rounded-lg h-auto">
             <TabsTrigger 
               value="statements" 
-              className="data-[state=active]:bg-[#EDEAE5] data-[state=active]:text-[#1C2B1E] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-[#EDEAE5] hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
+              className="data-[state=active]:bg-[#E8DC88] data-[state=active]:text-[#3C3F42] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white/80 hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
               data-testid="tab-statements"
             >
               <Users className="h-4 w-4 mr-2 shrink-0" />
@@ -573,7 +573,7 @@ Servex Holdings`;
             </TabsTrigger>
             <TabsTrigger 
               value="worksheets"
-              className="data-[state=active]:bg-[#EDEAE5] data-[state=active]:text-[#1C2B1E] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-[#EDEAE5] hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
+              className="data-[state=active]:bg-[#E8DC88] data-[state=active]:text-[#3C3F42] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white/80 hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
               data-testid="tab-worksheets"
             >
               <FileText className="h-4 w-4 mr-2 shrink-0" />
@@ -581,7 +581,7 @@ Servex Holdings`;
             </TabsTrigger>
             <TabsTrigger 
               value="overdue"
-              className="data-[state=active]:bg-[#EDEAE5] data-[state=active]:text-[#1C2B1E] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-[#EDEAE5] hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
+              className="data-[state=active]:bg-[#E8DC88] data-[state=active]:text-[#3C3F42] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white/80 hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
               data-testid="tab-overdue"
             >
               <AlertTriangle className="h-4 w-4 mr-2 shrink-0" />
@@ -589,7 +589,7 @@ Servex Holdings`;
             </TabsTrigger>
             <TabsTrigger 
               value="invoices"
-              className="data-[state=active]:bg-[#EDEAE5] data-[state=active]:text-[#1C2B1E] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-[#EDEAE5] hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
+              className="data-[state=active]:bg-[#E8DC88] data-[state=active]:text-[#3C3F42] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white/80 hover:text-white whitespace-nowrap px-4 py-3 text-sm transition-colors"
               data-testid="tab-invoices"
             >
               <Receipt className="h-4 w-4 mr-2 shrink-0" />
