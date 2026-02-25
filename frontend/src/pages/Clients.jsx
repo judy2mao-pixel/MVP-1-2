@@ -38,7 +38,7 @@ import {
   DropdownMenuTrigger,
 } from '../components/ui/dropdown-menu';
 import { toast } from 'sonner';
-import { Plus, Search, MoreVertical, Edit, Trash2, DollarSign, Users, ArrowUpDown, Truck } from 'lucide-react';
+import { Plus, Search, MoreVertical, Edit, Trash2, DollarSign, Users, ArrowUpDown, Truck, Download, Upload, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const API = `${window.location.origin}/api`;
