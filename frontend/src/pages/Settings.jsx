@@ -470,17 +470,31 @@ export function Settings() {
     }
   };
 
-  const handleUpdateExchangeRate = async (code, newRate) => {
+  // Debounced exchange rate update (1 second delay)
+  const debouncedUpdateExchangeRate = useMemo(
+    () => debounce(async (code, newRate) => {
+      const updatedRates = currencies.exchange_rates.map(r => 
+        r.code === code ? { ...r, rate_to_base: parseFloat(newRate) } : r
+      );
+      try {
+        await axios.put(`${API}/tenant/currencies`, { exchange_rates: updatedRates }, { withCredentials: true });
+        setCurrencies(prev => ({ ...prev, exchange_rates: updatedRates }));
+        toast.success(`Exchange rate for ${code} updated`);
+      } catch (error) {
+        toast.error('Failed to update exchange rate');
+      }
+    }, 1000),
+    [currencies.exchange_rates]
+  );
+
+  const handleUpdateExchangeRate = (code, newRate) => {
+    // Update UI immediately
     const updatedRates = currencies.exchange_rates.map(r => 
       r.code === code ? { ...r, rate_to_base: parseFloat(newRate) } : r
     );
-    try {
-      await axios.put(`${API}/tenant/currencies`, { exchange_rates: updatedRates }, { withCredentials: true });
-      setCurrencies(prev => ({ ...prev, exchange_rates: updatedRates }));
-      toast.success(`Exchange rate for ${code} updated`);
-    } catch (error) {
-      toast.error('Failed to update exchange rate');
-    }
+    setCurrencies(prev => ({ ...prev, exchange_rates: updatedRates }));
+    // Debounced API call
+    debouncedUpdateExchangeRate(code, newRate);
   };
 
   // Data Management handlers
