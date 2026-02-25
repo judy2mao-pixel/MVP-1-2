@@ -699,6 +699,10 @@ export function Clients() {
                                 <DollarSign className="h-4 w-4 mr-2" />
                                 Manage Rates
                               </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => handleDownloadStatement(client.id, client.name)}>
+                                <FileText className="h-4 w-4 mr-2" />
+                                Statement PDF
+                              </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => handleDelete(client.id)}
                                 className="text-destructive"
