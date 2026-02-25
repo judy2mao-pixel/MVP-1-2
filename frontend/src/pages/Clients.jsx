@@ -330,7 +330,18 @@ export function Clients() {
               {loading ? 'Loading...' : `${filteredClients.length} of ${clients.length} client${clients.length !== 1 ? 's' : ''}`}
             </p>
           </div>
-          <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) resetForm(); }}>
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* CSV Import/Export */}
+            <Button variant="outline" size="sm" onClick={handleExportCSV} data-testid="export-csv-btn">
+              <Download className="h-4 w-4 mr-1" /> Export CSV
+            </Button>
+            <label>
+              <Button variant="outline" size="sm" asChild>
+                <span><Upload className="h-4 w-4 mr-1" /> Import CSV</span>
+              </Button>
+              <input type="file" accept=".csv" onChange={handleImportCSV} className="hidden" />
+            </label>
+            <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) resetForm(); }}>
             <DialogTrigger asChild>
               <Button data-testid="add-client-btn">
                 <Plus className="h-4 w-4 mr-2" />
