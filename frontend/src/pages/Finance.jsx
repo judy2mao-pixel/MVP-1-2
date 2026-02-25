@@ -945,6 +945,36 @@ Servex Holdings`;
 
           {/* ========== TAB 3: OVERDUE ========== */}
           <TabsContent value="overdue" className="mt-6">
+            {/* Filters and Sort */}
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <Select value={overdueTripFilter} onValueChange={setOverdueTripFilter}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Filter by Trip" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Trips</SelectItem>
+                  {trips.map(trip => (
+                    <SelectItem key={trip.id} value={trip.id}>
+                      {trip.trip_number}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              <Select value={overdueSortBy} onValueChange={setOverdueSortBy}>
+                <SelectTrigger className="w-[200px]">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="days_overdue">Days Overdue</SelectItem>
+                  <SelectItem value="amount_desc">Amount (High → Low)</SelectItem>
+                  <SelectItem value="amount_asc">Amount (Low → High)</SelectItem>
+                  <SelectItem value="client_asc">Client A-Z</SelectItem>
+                  <SelectItem value="client_desc">Client Z-A</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
             {/* Summary */}
             <div className="flex items-center justify-between mb-6">
               <div>
