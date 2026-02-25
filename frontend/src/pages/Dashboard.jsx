@@ -155,13 +155,13 @@ export function Dashboard() {
           {/* Filter Bar */}
           <div className="flex items-center gap-2 flex-wrap">
             {/* Period Toggle */}
-            <div className="flex items-center bg-gray-100 rounded-lg p-1 gap-0.5" data-testid="period-toggle">
+            <div className="flex items-center bg-gray-100 rounded-lg p-0.5 gap-0.5" data-testid="period-toggle">
               {['mtd', 'last_month', '3m', 'all'].map(p => (
                 <button
                   key={p}
                   onClick={() => setPeriod(p)}
                   className={cn(
-                    "px-3 py-1 rounded-md text-xs font-medium transition-colors",
+                    "px-2 py-1 rounded-md text-xs font-medium transition-colors",
                     period === p ? "bg-white text-[#6B633C] shadow-sm font-semibold" : "text-gray-500 hover:text-gray-700"
                   )}
                   data-testid={`period-${p}`}
@@ -171,7 +171,7 @@ export function Dashboard() {
               ))}
             </div>
             {/* ZAR / KES Toggle */}
-            <div className="flex items-center gap-2 bg-white border rounded-lg px-3 py-1.5" data-testid="currency-toggle-dashboard">
+            <div className="flex items-center gap-2 bg-white border rounded-lg px-2 py-1" data-testid="currency-toggle-dashboard">
               <span className={cn("text-xs font-medium", currency === 'ZAR' ? "text-[#6B633C]" : "text-gray-400")}>ZAR</span>
               <Switch
                 checked={currency === 'KES'}
@@ -181,12 +181,12 @@ export function Dashboard() {
               <span className={cn("text-xs font-medium", currency === 'KES' ? "text-[#6B633C]" : "text-gray-400")}>KES</span>
             </div>
             <div className="flex gap-2">
-              <Button asChild variant="outline" size="sm">
+              <Button asChild variant="outline" size="sm" className="h-8 text-xs">
                 <Link to="/scanner">Quick Scan</Link>
               </Button>
-              <Button asChild size="sm" className="bg-[#6B633C] hover:bg-[#6B633C]/90">
+              <Button asChild size="sm" className="bg-[#6B633C] hover:bg-[#6B633C]/90 h-8 text-xs">
                 <Link to="/parcels/intake">
-                  <PackagePlus className="h-3.5 w-3.5 mr-1.5" /> Add Parcel
+                  <PackagePlus className="h-3 w-3 mr-1" /> Add Parcel
                 </Link>
               </Button>
             </div>
