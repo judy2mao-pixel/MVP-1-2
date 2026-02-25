@@ -300,7 +300,6 @@ export function Dashboard() {
             <KpiTile 
               label="Active Clients" 
               value={(stats?.total_clients ?? 0).toLocaleString()} 
-              sparkline={stats?.total_clients_sparkline}
               isLoading={loading} 
               icon={Users} 
               href="/clients" 
@@ -308,7 +307,6 @@ export function Dashboard() {
             <KpiTile 
               label="Total Trips" 
               value={(stats?.total_trips ?? 0).toLocaleString()} 
-              sparkline={stats?.total_trips_sparkline}
               isLoading={loading} 
               icon={Truck} 
               href="/trips" 
@@ -316,7 +314,6 @@ export function Dashboard() {
             <KpiTile 
               label="Total Shipments" 
               value={(stats?.total_shipments ?? 0).toLocaleString()} 
-              sparkline={stats?.total_shipments_sparkline}
               isLoading={loading} 
               icon={Package} 
               href="/shipments" 
@@ -325,7 +322,6 @@ export function Dashboard() {
               label="Delivered" 
               value={(ops.delivered ?? 0).toLocaleString()} 
               sub="all time" 
-              sparkline={ops.delivered_sparkline}
               isLoading={loading} 
               icon={TrendingUp} 
             />
