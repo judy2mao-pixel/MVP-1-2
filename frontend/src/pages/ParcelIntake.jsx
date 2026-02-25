@@ -797,15 +797,15 @@ export function ParcelIntake() {
   return (
     <>
       <div className="flex flex-col h-[calc(100vh-64px)]" data-testid="parcel-intake-page">
-        {/* TOP SECTION - 30% */}
-        <div className="p-6 bg-white border-b">
+        {/* TOP SECTION - Compact */}
+        <div className="px-4 py-3 bg-white border-b">
           {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-[#3C3F42] flex items-center gap-2">
-              <Package className="h-6 w-6 text-[#6B633C]" />
+          <div className="mb-2">
+            <h1 className="text-xl font-bold text-[#3C3F42] flex items-center gap-2">
+              <Package className="h-5 w-5 text-[#6B633C]" />
               Parcel Intake (Table View)
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-gray-500 text-xs mt-0.5">
               Quick bulk parcel registration with keyboard shortcuts • <span className="text-[#6B633C]">Ctrl+S to save</span>
             </p>
           </div>
