@@ -546,10 +546,10 @@ Servex Holdings`;
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 gap-2 bg-gray-100 p-2 rounded-lg h-auto">
+          <TabsList style={{ backgroundColor: '#1C2B1E' }} className="grid w-full grid-cols-4 gap-2 p-2 rounded-lg h-auto">
             <TabsTrigger 
               value="statements" 
-              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm whitespace-nowrap px-4 py-3 text-sm"
+              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white whitespace-nowrap px-4 py-3 text-sm"
               data-testid="tab-statements"
             >
               <Users className="h-4 w-4 mr-2 shrink-0" />
@@ -557,7 +557,7 @@ Servex Holdings`;
             </TabsTrigger>
             <TabsTrigger 
               value="worksheets"
-              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm whitespace-nowrap px-4 py-3 text-sm"
+              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white whitespace-nowrap px-4 py-3 text-sm"
               data-testid="tab-worksheets"
             >
               <FileText className="h-4 w-4 mr-2 shrink-0" />
@@ -565,7 +565,7 @@ Servex Holdings`;
             </TabsTrigger>
             <TabsTrigger 
               value="overdue"
-              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm whitespace-nowrap px-4 py-3 text-sm"
+              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white whitespace-nowrap px-4 py-3 text-sm"
               data-testid="tab-overdue"
             >
               <AlertTriangle className="h-4 w-4 mr-2 shrink-0" />
@@ -573,7 +573,7 @@ Servex Holdings`;
             </TabsTrigger>
             <TabsTrigger 
               value="invoices"
-              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm whitespace-nowrap px-4 py-3 text-sm"
+              className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white whitespace-nowrap px-4 py-3 text-sm"
               data-testid="tab-invoices"
             >
               <Receipt className="h-4 w-4 mr-2 shrink-0" />
