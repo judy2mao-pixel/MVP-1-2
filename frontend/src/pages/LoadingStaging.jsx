@@ -695,7 +695,7 @@ export function LoadingStaging() {
 
         {/* Progress Bar */}
         {selectedTrip && mode === 'loading' && (
-          <Card style={{ backgroundColor: '#EDEAE5', borderColor: '#DCD29E' }}>
+          <Card className="mt-4" style={{ backgroundColor: '#EDEAE5', borderColor: '#DCD29E' }}>
             <CardContent className="py-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
