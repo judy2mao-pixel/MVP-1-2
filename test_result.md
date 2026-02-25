@@ -386,23 +386,28 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: |
-      ROUND 2: Implemented Session E, G, I features. New endpoints added:
-      1. GET /api/clients/export/csv - CSV export (tested, works)
-      2. POST /api/clients/import/csv - CSV import (file upload)
-      3. GET /api/warehouse/parcels/{id}/collection-check - Collection eligibility check (tested)
-      4. POST /api/warehouse/parcels/{id}/collect - Collect parcel with warning (tested)
-      5. GET /api/finance/client-statement/{client_id}/pdf - Client Statement PDF (tested, generates valid PDF)
-      6. Client schema extended with: position, primary_place_of_business, nature_of_relationship, owner, frequency_of_business, estimated_value_per_trip
-      7. Auto-calculate total_amount_spent on client GET
-      8. Expense attachment fields added to TripExpense schema
+      ROUND 3: All requested features implemented. Please test the frontend:
       
-      Test the new endpoints plus verify existing ones still work.
-      Login: admin@servex.com / Servex2026!
+      1. FINANCE TAB BAR: Now uses sidebar color #3C3F42 with gold active tab #E8DC88
+      2. WHATSAPP TEMPLATES: Fixed JSX nesting bug - templates now visible with editor/preview
+      3. ADD CLIENT DIALOG: Now has max-h-[90vh] overflow-y-auto for scrollability
+      4. TRIP WORKSHEETS: Backend now pulls capacity from vehicle (fleet) data, fallback to trip defaults
+      5. PRINTNODE: Full integration - Settings > PrintNode tab with API key config, printer list, test print, job history
+      6. COLLECTION MODE: Working in Warehouse page with warning dialog for unpaid parcels
+      7. CLIENT CSV: Export/Import buttons on Clients page
+      8. CLIENT STATEMENT PDF: Download from Clients page dropdown menu
       
-      Test an arrived parcel collection-check + collect flow:
-      - First find an arrived parcel, then check collection eligibility, then collect it.
-      - Also test CSV export endpoint.
-      - Test client statement PDF generation.
+      Test flow for each page:
+      - Login: admin@servex.com / Servex2026!
+      - Dashboard: Verify KPIs show data (400 shipments, 50 clients)
+      - Parcel Intake: Verify 3 rows fit without overlap
+      - Warehouse: Verify filter button visible, collection mode toggle works
+      - Finance: Tab bar matches sidebar color, client statements load, trip worksheets show data
+      - Clients: Export CSV button works, Add Client dialog scrollable, Statement PDF in dropdown
+      - Settings: WhatsApp tab shows 4 templates with editor, PrintNode tab shows connection form
+      - Trips: Data loads correctly with 12 trips
+      
+      Frontend URL: https://multi-warehouse-qa.preview.emergentagent.com
   - agent: "testing"
     message: |
       Comprehensive backend API testing completed successfully - 100% success rate (20/20 tests passed).
