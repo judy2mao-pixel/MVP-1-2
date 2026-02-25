@@ -1085,38 +1085,39 @@ export function ParcelIntake() {
                       <tr 
                         key={row.id}
                         className={cn(
-                          "border-b border-gray-100 hover:bg-[#E8E4D0]/30 transition-colors",
+                          "border-b border-gray-100 hover:bg-[#E8E4D0]/30 transition-colors min-h-[48px]",
                           index % 2 === 1 && "bg-gray-50/50"
                         )}
+                        style={{ height: '48px' }}
                       >
                         {/* Date - Auto (darker) */}
-                        <td className="px-3 py-2 text-sm text-gray-700">{today}</td>
+                        <td className="px-3 py-2 text-sm text-gray-700 align-middle">{today}</td>
                         
                         {/* No - Auto (darker) */}
-                        <td className="px-3 py-2 text-center text-sm text-gray-700">{index + 1}</td>
+                        <td className="px-3 py-2 text-center text-sm text-gray-700 align-middle">{index + 1}</td>
                         
                         {/* Sender - INPUT (editable for sub-clients) */}
-                        <td className="px-2 py-1">
+                        <td className="px-2 py-2 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-sender`] = el}
                             value={row.sender}
                             onChange={(e) => updateRow(row.id, 'sender', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'sender')}
                             placeholder={selectedClient?.name || 'Sender name'}
-                            className="h-8 text-sm border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
+                            className="h-9 text-sm border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
                             data-testid={`sender-${index}`}
                           />
                         </td>
                         
                         {/* Description - INPUT (lighter placeholder) */}
-                        <td className="px-2 py-1">
+                        <td className="px-2 py-2 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-description`] = el}
                             value={row.description}
                             onChange={(e) => updateRow(row.id, 'description', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'description')}
                             placeholder="e.g., Electronics, Wine, Clothing"
-                            className="h-8 text-sm border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
+                            className="h-9 text-sm border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
                             data-testid={`description-${index}`}
                           />
                         </td>
