@@ -634,8 +634,9 @@ Servex Holdings`;
             </div>
 
             {/* Matrix Table */}
-            <div className="overflow-x-auto rounded-lg border border-gray-200">
-              <table className="w-full text-xs border-collapse" style={{ minWidth: `${Math.max(800, 280 + tripColumns.length * 120)}px` }}>
+            <div className="relative">
+              <div className="overflow-x-auto rounded-lg border border-gray-200 h-[calc(100vh-350px)] sticky-scrollbar" style={{ maxHeight: '70vh' }}>
+                <table className="w-full text-xs border-collapse" style={{ minWidth: `${Math.max(800, 280 + tripColumns.length * 120)}px` }}>
                 <thead>
                   <tr className="bg-[#6B633C] text-white">
                     {/* Frozen cols */}
