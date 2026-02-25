@@ -763,6 +763,16 @@ async def get_client_statement(
         "statement_date": datetime.now(timezone.utc).isoformat()
     }
 
+
+@router.get("/finance/client-statement/{client_id}/pdf")
+async def get_client_statement_pdf(
+    client_id: str,
+    tenant_id: str = Depends(get_tenant_id)
+):
+    """Generate a PDF client statement showing all invoices and payments (Session I M-03)"""
+    from services.pdf_service import generate_client_statement_pdf
+    return await generate_client_statement_pdf(client_id, tenant_id)
+
 class WhatsAppReminderRequest(BaseModel):
     client_ids: List[str]
     message_template: Optional[str] = None
