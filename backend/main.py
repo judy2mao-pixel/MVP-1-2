@@ -25,6 +25,7 @@ from routes import (
     data_routes,
     recipient_routes,
     notes_routes,
+    template_routes,
 )
 
 # Configure logging
