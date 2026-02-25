@@ -487,3 +487,70 @@ async def mark_piece_loaded(piece_id: str, tenant_id: str = Depends(get_tenant_i
     )
     
     return {"message": "Piece marked as loaded"}
+
+
+# SESSION G: Collection Workflow Endpoints
+
+@router.get("/shipments/ready-for-collection")
+async def get_ready_for_collection(
+    client_id: str,
+    tenant_id: str = Depends(get_tenant_id)
+):
+    """Get all parcels ready for collection by client (SESSION G)"""
+    parcels = await db.shipments.find({
+        "tenant_id": tenant_id,
+        "client_id": client_id,
+        "status": "arrived"
+    }, {"_id": 0}).to_list(500)
+    
+    return {
+        "count": len(parcels),
+        "client_id": client_id,
+        "parcels": [
+            {
+                "id": p["id"],
+                "barcode": p.get("barcode"),
+                "description": p.get("description"),
+                "weight": p.get("weight"),
+                "arrived_at": p.get("updated_at"),
+                "invoice_id": p.get("invoice_id"),
+                "is_invoiced": p.get("invoice_id") is not None
+            }
+            for p in parcels
+        ]
+    }
+
+@router.post("/shipments/mark-collected")
+async def mark_parcels_collected(
+    parcel_ids: List[str],
+    override: bool = False,
+    override_reason: Optional[str] = None,
+    tenant_id: str = Depends(get_tenant_id),
+    user: dict = Depends(get_current_user)
+):
+    """Mark parcels as collected (SESSION G)"""
+    now = datetime.now(timezone.utc).isoformat()
+    
+    result = await db.shipments.update_many(
+        {
+            "tenant_id": tenant_id,
+            "id": {"$in": parcel_ids}
+        },
+        {
+            "$set": {
+                "status": "collected",
+                "collected_at": now,
+                "collected_by": user["id"],
+                "collection_override": override,
+                "collection_override_reason": override_reason if override else None,
+                "updated_at": now
+            }
+        }
+    )
+    
+    return {
+        "message": f"Marked {result.modified_count} parcels as collected",
+        "count": result.modified_count,
+        "override_used": override
+    }
+
