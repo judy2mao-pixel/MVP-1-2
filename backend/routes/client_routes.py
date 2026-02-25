@@ -2,9 +2,13 @@
 Client routes for Servex Holdings backend.
 Handles client CRUD operations and client rate management.
 """
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
+from fastapi.responses import StreamingResponse
 from typing import List, Optional
 from datetime import datetime, timezone
+import csv
+import io
+import uuid
 
 from database import db
 from dependencies import get_current_user, get_tenant_id
