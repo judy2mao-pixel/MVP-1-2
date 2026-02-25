@@ -26,6 +26,7 @@ from routes import (
     recipient_routes,
     notes_routes,
     template_routes,
+    printnode_routes,
 )
 
 # Configure logging
