@@ -684,3 +684,162 @@ async def generate_invoice_pdf(
         media_type="application/pdf",
         headers={"Content-Disposition": f"attachment; filename={filename}"}
     )
+
+
+async def generate_client_statement_pdf(client_id: str, tenant_id: str):
+    """Generate a client statement PDF showing all invoices and payments (Session I M-03)"""
+    
+    client = await db.clients.find_one({"id": client_id, "tenant_id": tenant_id}, {"_id": 0})
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+    
+    invoices = await db.invoices.find(
+        {"client_id": client_id, "tenant_id": tenant_id},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(1000)
+    
+    payments = await db.payments.find(
+        {"client_id": client_id, "tenant_id": tenant_id},
+        {"_id": 0}
+    ).sort("payment_date", -1).to_list(1000)
+    
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, topMargin=30*mm, bottomMargin=20*mm, leftMargin=15*mm, rightMargin=15*mm)
+    
+    styles = getSampleStyleSheet()
+    
+    title_style = ParagraphStyle('StatementTitle', parent=styles['Heading1'], fontSize=18, textColor=colors.HexColor('#6B633C'), spaceAfter=6)
+    subtitle_style = ParagraphStyle('Subtitle', parent=styles['Normal'], fontSize=10, textColor=colors.gray, spaceAfter=12)
+    section_style = ParagraphStyle('Section', parent=styles['Heading2'], fontSize=13, textColor=colors.HexColor('#3C3F42'), spaceBefore=14, spaceAfter=6)
+    normal_style = ParagraphStyle('NormalText', parent=styles['Normal'], fontSize=9, leading=12)
+    
+    elements = []
+    
+    # Header
+    elements.append(Paragraph("SERVEX HOLDINGS", title_style))
+    elements.append(Paragraph(f"Client Statement - {client.get('name', 'Unknown')}", subtitle_style))
+    elements.append(Paragraph(f"Generated: {datetime.now().strftime('%d %B %Y')}", normal_style))
+    elements.append(Spacer(1, 12))
+    
+    # Client details
+    elements.append(Paragraph("Client Details", section_style))
+    client_info = [
+        ["Name:", client.get("name", "-"), "Company:", client.get("company_name", "-")],
+        ["Phone:", client.get("phone", "-"), "Email:", client.get("email", "-")],
+        ["Currency:", client.get("default_currency", "ZAR"), "Rate:", f"R {client.get('default_rate_value', 0)}/kg"],
+    ]
+    info_table = Table(client_info, colWidths=[60, 150, 60, 150])
+    info_table.setStyle(TableStyle([
+        ('FONTSIZE', (0, 0), (-1, -1), 8),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.gray),
+        ('TEXTCOLOR', (2, 0), (2, -1), colors.gray),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+    ]))
+    elements.append(info_table)
+    elements.append(Spacer(1, 12))
+    
+    # Invoices table
+    elements.append(Paragraph("Invoices", section_style))
+    
+    total_invoiced = sum(inv.get("total", 0) for inv in invoices)
+    total_paid = sum(inv.get("paid_amount", 0) for inv in invoices)
+    total_outstanding = total_invoiced - total_paid
+    
+    if invoices:
+        inv_data = [["Invoice #", "Date", "Status", "Total", "Paid", "Outstanding"]]
+        for inv in invoices:
+            outstanding = inv.get("total", 0) - inv.get("paid_amount", 0)
+            inv_data.append([
+                inv.get("invoice_number", "-"),
+                inv.get("issue_date", "-")[:10] if inv.get("issue_date") else "-",
+                inv.get("status", "-").upper(),
+                format_currency(inv.get("total", 0)),
+                format_currency(inv.get("paid_amount", 0)),
+                format_currency(outstanding),
+            ])
+        
+        # Summary row
+        inv_data.append(["", "", "TOTAL", format_currency(total_invoiced), format_currency(total_paid), format_currency(total_outstanding)])
+        
+        inv_table = Table(inv_data, colWidths=[80, 65, 55, 75, 75, 75])
+        inv_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#6B633C')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('FONTSIZE', (0, 0), (-1, -1), 8),
+            ('ALIGN', (3, 0), (-1, -1), 'RIGHT'),
+            ('GRID', (0, 0), (-1, -2), 0.5, colors.lightgrey),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('TOPPADDING', (0, 0), (-1, -1), 4),
+            ('BACKGROUND', (0, -1), (-1, -1), colors.HexColor('#f5f5f0')),
+            ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
+            ('LINEABOVE', (0, -1), (-1, -1), 1, colors.HexColor('#6B633C')),
+        ]))
+        elements.append(inv_table)
+    else:
+        elements.append(Paragraph("No invoices found.", normal_style))
+    
+    elements.append(Spacer(1, 12))
+    
+    # Payments table
+    elements.append(Paragraph("Payments", section_style))
+    if payments:
+        pay_data = [["Date", "Method", "Reference", "Invoice", "Amount"]]
+        for pay in payments:
+            # Find invoice number
+            inv_num = "-"
+            if pay.get("invoice_id"):
+                inv = next((i for i in invoices if i.get("id") == pay["invoice_id"]), None)
+                if inv:
+                    inv_num = inv.get("invoice_number", "-")
+            pay_data.append([
+                pay.get("payment_date", "-")[:10] if pay.get("payment_date") else "-",
+                (pay.get("payment_method", "-") or "-").replace("_", " ").title(),
+                pay.get("reference", "-") or "-",
+                inv_num,
+                format_currency(pay.get("amount", 0)),
+            ])
+        
+        pay_table = Table(pay_data, colWidths=[70, 85, 85, 85, 75])
+        pay_table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#6B633C')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+            ('FONTSIZE', (0, 0), (-1, -1), 8),
+            ('ALIGN', (4, 0), (4, -1), 'RIGHT'),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.lightgrey),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 4),
+            ('TOPPADDING', (0, 0), (-1, -1), 4),
+        ]))
+        elements.append(pay_table)
+    else:
+        elements.append(Paragraph("No payments recorded.", normal_style))
+    
+    elements.append(Spacer(1, 20))
+    
+    # Summary
+    elements.append(Paragraph("Account Summary", section_style))
+    summary_data = [
+        ["Total Invoiced:", format_currency(total_invoiced)],
+        ["Total Paid:", format_currency(total_paid)],
+        ["Outstanding Balance:", format_currency(total_outstanding)],
+    ]
+    summary_table = Table(summary_data, colWidths=[120, 100])
+    summary_table.setStyle(TableStyle([
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('TEXTCOLOR', (0, 0), (0, -1), colors.gray),
+        ('ALIGN', (1, 0), (1, -1), 'RIGHT'),
+        ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
+        ('TEXTCOLOR', (1, -1), (1, -1), colors.HexColor('#DC2626') if total_outstanding > 0 else colors.HexColor('#059669')),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+    ]))
+    elements.append(summary_table)
+    
+    doc.build(elements)
+    buffer.seek(0)
+    
+    filename = f"Statement-{client.get('name', 'Client').replace(' ', '_')}.pdf"
+    return StreamingResponse(
+        buffer,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
+
