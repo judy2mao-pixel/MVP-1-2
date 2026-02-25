@@ -1123,7 +1123,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Qty - INPUT */}
-                        <td className="px-2 py-1">
+                        <td className="px-2 py-2 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-qty`] = el}
                             type="number"
@@ -1131,13 +1131,13 @@ export function ParcelIntake() {
                             value={row.qty}
                             onChange={(e) => updateRow(row.id, 'qty', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'qty')}
-                            className="h-8 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[70px]"
+                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[70px]"
                             data-testid={`qty-${index}`}
                           />
                         </td>
                         
                         {/* Weight (Kg) - INPUT */}
-                        <td className="px-2 py-1">
+                        <td className="px-2 py-2 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-weight`] = el}
                             type="number"
@@ -1147,13 +1147,13 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'weight', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'weight')}
                             placeholder="0.0"
-                            className="h-8 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40 w-full min-w-[80px]"
+                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40 w-full min-w-[80px]"
                             data-testid={`weight-${index}`}
                           />
                         </td>
                         
                         {/* Length - INPUT */}
-                        <td className="px-2 py-1">
+                        <td className="px-2 py-2 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-length`] = el}
                             type="number"
@@ -1161,13 +1161,13 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'length', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'length')}
                             placeholder="0"
-                            className="h-8 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
+                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
                             data-testid={`length-${index}`}
                           />
                         </td>
                         
                         {/* Width - INPUT */}
-                        <td className="px-2 py-1">
+                        <td className="px-2 py-2 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-width`] = el}
                             type="number"
@@ -1175,13 +1175,13 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'width', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'width')}
                             placeholder="0"
-                            className="h-8 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
+                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
                             data-testid={`width-${index}`}
                           />
                         </td>
                         
                         {/* Height - INPUT */}
-                        <td className="px-2 py-1">
+                        <td className="px-2 py-2 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-height`] = el}
                             type="number"
@@ -1189,13 +1189,13 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'height', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'height')}
                             placeholder="0"
-                            className="h-8 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
+                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
                             data-testid={`height-${index}`}
                           />
                         </td>
                         
                         {/* Volumetric Weight - CALC */}
-                        <td className="px-3 py-2 text-right text-sm text-gray-400 italic">
+                        <td className="px-3 py-2 text-right text-sm text-gray-400 italic align-middle">
                           {row.volumetricWeight > 0 ? row.volumetricWeight.toFixed(2) : '-'}
                         </td>
                         
