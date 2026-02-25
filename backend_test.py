@@ -143,7 +143,7 @@ class ServexAPITester:
         
         success = self.log_test("CLIENTS_LIST", True, f"Retrieved {len(clients)} clients", {"count": len(clients), "first_client": clients[0].get('name') if clients else None})
         
-        # Test get single client
+        # Test get single client with total_amount_spent (NEW ENDPOINT)
         if clients:
             first_client_id = clients[0]["id"]
             client_response = self.make_request("GET", f"/clients/{first_client_id}")
@@ -152,7 +152,22 @@ class ServexAPITester:
                 success = self.log_test("CLIENTS_GET", False, f"Get single client failed: {client_response.get('data', {}).get('detail', 'Unknown error')}") and success
             else:
                 client = client_response["data"]
-                success = self.log_test("CLIENTS_GET", True, f"Retrieved client: {client.get('name')}", client) and success
+                # Check if total_amount_spent field is present
+                has_total_spent = "total_amount_spent" in client
+                total_spent_value = client.get("total_amount_spent", 0)
+                success = self.log_test("CLIENTS_GET", True, f"Retrieved client: {client.get('name')} - Total spent: {total_spent_value} (field present: {has_total_spent})", client) and success
+        
+        # Test CSV Export (NEW ENDPOINT)
+        csv_response = self.make_request("GET", "/clients/export/csv")
+        
+        if not csv_response["success"]:
+            success = self.log_test("CLIENTS_CSV_EXPORT", False, f"CSV export failed: {csv_response.get('data', {}).get('detail', 'Unknown error')}") and success
+        else:
+            # Check if response is CSV format
+            content_type = csv_response.get("headers", {}).get("content-type", "")
+            content_disposition = csv_response.get("headers", {}).get("content-disposition", "")
+            is_csv = "text/csv" in content_type or "filename=clients.csv" in content_disposition
+            success = self.log_test("CLIENTS_CSV_EXPORT", True, f"CSV export successful - Content-Type: {content_type}, Has CSV data: {is_csv}", {"content_type": content_type, "has_csv_data": is_csv}) and success
         
         # Test create client
         test_client_data = {
