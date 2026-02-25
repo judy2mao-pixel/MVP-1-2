@@ -231,6 +231,70 @@ export function Clients() {
     setRatesDialogOpen(true);
   };
 
+  // SESSION E: CSV Export
+  const handleExportCSV = async () => {
+    try {
+      const response = await axios.get(`${API}/clients/export/csv`, { 
+        withCredentials: true,
+        responseType: 'blob'
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'clients.csv');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success('Client data exported');
+    } catch (error) {
+      toast.error('Failed to export clients');
+    }
+  };
+
+  // SESSION E: CSV Import
+  const handleImportCSV = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+      const response = await axios.post(`${API}/clients/import/csv`, formData, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      const { created, updated, errors } = response.data;
+      toast.success(`Imported: ${created} new, ${updated} updated${errors?.length ? `, ${errors.length} errors` : ''}`);
+      fetchClients();
+    } catch (error) {
+      toast.error('Failed to import CSV');
+    }
+    e.target.value = '';
+  };
+
+  // SESSION I M-03: Client Statement PDF
+  const handleDownloadStatement = async (clientId, clientName) => {
+    try {
+      const response = await axios.get(`${API}/finance/client-statement/${clientId}/pdf`, {
+        withCredentials: true,
+        responseType: 'blob'
+      });
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `Statement-${clientName.replace(/\s+/g, '_')}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+      toast.success('Statement downloaded');
+    } catch (error) {
+      toast.error('Failed to generate statement');
+    }
+  };
+
   const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(search.toLowerCase()) ||
     client.email?.toLowerCase().includes(search.toLowerCase()) ||
