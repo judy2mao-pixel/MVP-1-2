@@ -809,6 +809,9 @@ async def get_dashboard_stats(
         "total_clients": total_clients,
         "total_shipments": total_shipments,
         "total_trips": total_trips,
+        "total_clients_sparkline": total_clients_sparkline,
+        "total_trips_sparkline": total_trips_sparkline,
+        "total_shipments_sparkline": total_shipments_sparkline,
         "financial": {
             "revenue_mtd": round(revenue_mtd, 2),
             "revenue_last_month": round(revenue_last_month, 2),
@@ -816,14 +819,22 @@ async def get_dashboard_stats(
             "accounts_receivable": round(accounts_receivable, 2),
             "overdue_amount": round(overdue_amount, 2),
             "collection_rate": collection_rate,
-            "revenue_sparkline": sparkline
+            "revenue_sparkline": revenue_sparkline,
+            "receivables_sparkline": receivables_sparkline,
+            "overdue_sparkline": overdue_sparkline,
+            "collection_rate_sparkline": collection_rate_sparkline
         },
         "operations": {
             "in_transit": in_transit,
             "awaiting_collection": awaiting_collection,
             "uninvoiced_parcels": uninvoiced_parcels,
             "warehouse": warehouse_count,
-            "delivered": delivered_count
+            "delivered": delivered_count,
+            "warehouse_sparkline": warehouse_sparkline,
+            "in_transit_sparkline": in_transit_sparkline,
+            "awaiting_collection_sparkline": awaiting_collection_sparkline,
+            "uninvoiced_sparkline": uninvoiced_sparkline,
+            "delivered_sparkline": delivered_sparkline
         },
         "truck_utilisation": truck_utilisation,
         "shipment_status": {
