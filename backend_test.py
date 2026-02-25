@@ -372,8 +372,12 @@ class ServexAPITester:
         if not response["success"]:
             return self.log_test("TEMPLATES_WHATSAPP", False, f"WhatsApp templates failed: {response.get('data', {}).get('detail', 'Unknown error')}")
         
-        templates = response["data"]
-        return self.log_test("TEMPLATES_WHATSAPP", True, f"Retrieved WhatsApp templates: {len(templates) if isinstance(templates, list) else 'object'}", templates)
+        templates_data = response["data"]
+        if isinstance(templates_data, dict) and "templates" in templates_data:
+            templates = templates_data["templates"]
+            return self.log_test("TEMPLATES_WHATSAPP", True, f"Retrieved {len(templates)} WhatsApp templates", {"count": len(templates), "templates": templates})
+        else:
+            return self.log_test("TEMPLATES_WHATSAPP", False, f"Expected templates object with 'templates' key, got: {type(templates_data)}")
 
     def run_all_tests(self):
         """Run comprehensive test suite"""
