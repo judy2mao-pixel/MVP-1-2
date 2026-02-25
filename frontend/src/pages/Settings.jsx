@@ -794,6 +794,9 @@ export function Settings() {
             <TabsTrigger value="banking" data-testid="tab-banking">
               <DollarSign className="h-4 w-4 mr-2" />Banking
             </TabsTrigger>
+            <TabsTrigger value="whatsapp" data-testid="tab-whatsapp">
+              <MessageSquare className="h-4 w-4 mr-2" />WhatsApp
+            </TabsTrigger>
           </TabsList>
 
           {/* Company Profile */}
