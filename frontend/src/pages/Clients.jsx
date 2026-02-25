@@ -77,7 +77,14 @@ export function Clients() {
     billing_address: '',
     vat_number: '',
     payment_terms_days: 30,
-    default_currency: 'ZAR'
+    default_currency: 'ZAR',
+    // SESSION E: Extended fields
+    position: '',
+    place_of_business: '',
+    relationship_nature: 'regular',
+    owner: '',
+    frequency: 'monthly',
+    estimated_value: 0
   });
   
   const [rateForm, setRateForm] = useState({
