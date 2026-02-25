@@ -1233,7 +1233,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Action menu */}
-                        <td className="px-2 py-1 text-center">
+                        <td className="px-1 py-0.5 text-center">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="icon" className="h-8 w-8" data-testid={`menu-${index}`}>
