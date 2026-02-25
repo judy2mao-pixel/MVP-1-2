@@ -562,7 +562,7 @@ Servex Holdings`;
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList style={{ backgroundColor: '#1C2B1E' }} className="grid w-full grid-cols-4 gap-2 p-2 rounded-lg h-auto">
+          <TabsList style={{ backgroundColor: '#1C2B1E !important' }} className="grid w-full grid-cols-4 gap-2 p-2 rounded-lg h-auto !bg-[#1C2B1E]">
             <TabsTrigger 
               value="statements" 
               className="data-[state=active]:bg-white data-[state=active]:text-[#6B633C] data-[state=active]:font-semibold data-[state=active]:shadow-sm text-white whitespace-nowrap px-4 py-3 text-sm"
