@@ -1471,7 +1471,10 @@ export function Settings() {
                     {savingBanking ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Save className="h-4 w-4 mr-2" />}
                     Save Banking Details
                   </Button>
-
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           {/* WhatsApp Templates - SESSION H */}
           <TabsContent value="whatsapp" className="space-y-4">
@@ -1482,10 +1485,6 @@ export function Settings() {
               </p>
             </div>
             <WhatsAppTemplateEditor />
-          </TabsContent>
-                </div>
-              </CardContent>
-            </Card>
           </TabsContent>
         </Tabs>
 
