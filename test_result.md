@@ -374,13 +374,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "API Health & Authentication"
-    - "Dashboard Stats API"
-    - "Finance APIs"
-    - "Warehouse APIs"
-    - "Client APIs"
-    - "Trip APIs"
-    - "Invoice APIs"
+    - "CSV Export Endpoint"
+    - "Collection Check Endpoint" 
+    - "Collect Parcel Endpoint"
+    - "Client Statement PDF Endpoint"
+    - "Client GET with total_amount_spent"
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
