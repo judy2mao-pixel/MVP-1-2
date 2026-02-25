@@ -143,16 +143,16 @@ async def create_warehouses(tenant_id):
             "tenant_id": tenant_id,
             "name": "Johannesburg Main",
             "code": "JHB",
-            "address": "123 Industrial Road, Sandton",
+            "address": "123 Industrial Road, Sandton, Johannesburg",
             "status": "active",
             "created_at": datetime.now(timezone.utc).isoformat()
         },
         {
             "id": gen_id(),
             "tenant_id": tenant_id,
-            "name": "Harare Hub",
-            "code": "HRE",
-            "address": "45 Enterprise Road, Harare",
+            "name": "Nairobi Hub",
+            "code": "NBO",
+            "address": "45 Mombasa Road, Industrial Area, Nairobi",
             "status": "active",
             "created_at": datetime.now(timezone.utc).isoformat()
         }
