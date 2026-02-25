@@ -1471,6 +1471,18 @@ export function Settings() {
                     {savingBanking ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Save className="h-4 w-4 mr-2" />}
                     Save Banking Details
                   </Button>
+
+
+          {/* WhatsApp Templates - SESSION H */}
+          <TabsContent value="whatsapp" className="space-y-4">
+            <div>
+              <h3 className="text-lg font-semibold">WhatsApp Message Templates</h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                Customize WhatsApp messages sent to clients for invoices, statements, and collections
+              </p>
+            </div>
+            <WhatsAppTemplateEditor />
+          </TabsContent>
                 </div>
               </CardContent>
             </Card>
