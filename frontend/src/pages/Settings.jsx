@@ -1490,6 +1490,11 @@ export function Settings() {
             </div>
             <WhatsAppTemplateEditor />
           </TabsContent>
+
+          {/* PrintNode Settings */}
+          <TabsContent value="printnode" className="space-y-4">
+            <PrintNodeSettings />
+          </TabsContent>
         </Tabs>
 
         {/* CSV Import Modal */}
