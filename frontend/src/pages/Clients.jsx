@@ -348,7 +348,7 @@ export function Clients() {
                 Add Client
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>{editingClient ? 'Edit Client' : 'Add New Client'}</DialogTitle>
               </DialogHeader>
