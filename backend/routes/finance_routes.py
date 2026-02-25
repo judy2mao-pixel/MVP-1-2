@@ -219,8 +219,29 @@ async def get_trip_worksheet(trip_id: str, tenant_id: str = Depends(get_tenant_i
             if cur.get("code") == "KES":
                 kes_rate = cur.get("exchange_rate", 6.67)
 
-    capacity_kg = trip.get("capacity_kg") or 0
-    capacity_cbm = trip.get("capacity_cbm") or 0
+    # Get capacity from vehicle if assigned, otherwise from trip defaults
+    capacity_kg = 0
+    capacity_cbm = 0
+    vehicle_info = None
+    
+    vehicle_id = trip.get("vehicle_id")
+    if vehicle_id:
+        vehicle = await db.vehicles.find_one({"id": vehicle_id, "tenant_id": tenant_id}, {"_id": 0})
+        if vehicle:
+            capacity_kg = vehicle.get("max_weight_kg") or vehicle.get("capacity_kg") or 0
+            capacity_cbm = vehicle.get("max_volume_cbm") or vehicle.get("capacity_cbm") or 0
+            vehicle_info = {
+                "id": vehicle.get("id"),
+                "name": vehicle.get("name", ""),
+                "registration": vehicle.get("registration", ""),
+                "type": vehicle.get("vehicle_type", "")
+            }
+    
+    # Fallback to trip-level capacity if no vehicle
+    if capacity_kg == 0:
+        capacity_kg = trip.get("capacity_kg") or 0
+    if capacity_cbm == 0:
+        capacity_cbm = trip.get("capacity_cbm") or 0
 
     invoice_list = []
     total_revenue = 0
