@@ -298,7 +298,7 @@ export function Dashboard() {
         </div>
 
         {/* Row 3: Summary */}
-        <div className="bg-slate-50/30 p-4 rounded-lg">
+        <div className="bg-slate-50 bg-opacity-30 p-4 rounded-lg border border-slate-100">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Summary</p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <KpiTile 
