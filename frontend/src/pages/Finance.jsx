@@ -242,7 +242,14 @@ export function Finance() {
   // Fetch overdue invoices
   const fetchOverdue = async () => {
     try {
-      const response = await axios.get(`${API}/finance/overdue`, { withCredentials: true });
+      const params = {};
+      if (overdueTripFilter && overdueTripFilter !== 'all') {
+        params.trip_id = overdueTripFilter;
+      }
+      if (overdueSortBy) {
+        params.sort_by = overdueSortBy;
+      }
+      const response = await axios.get(`${API}/finance/overdue`, { params, withCredentials: true });
       setOverdueData(response.data);
     } catch (error) {
       console.error('Failed to fetch overdue:', error);
