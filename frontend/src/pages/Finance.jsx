@@ -194,6 +194,13 @@ export function Finance() {
     fetchOverdue();
   }, []);
 
+  // Refetch overdue when filters change
+  useEffect(() => {
+    if (activeTab === 'overdue') {
+      fetchOverdue();
+    }
+  }, [overdueTripFilter, overdueSortBy]);
+
   // Fetch trips list
   const fetchTrips = async () => {
     try {
