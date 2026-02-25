@@ -191,7 +191,13 @@ export function Clients() {
       billing_address: '',
       vat_number: '',
       payment_terms_days: 30,
-      default_currency: 'ZAR'
+      default_currency: 'ZAR',
+      position: '',
+      primary_place_of_business: '',
+      nature_of_relationship: 'regular',
+      owner: '',
+      frequency_of_business: 'monthly',
+      estimated_value_per_trip: 0
     });
     setEditingClient(null);
   };
