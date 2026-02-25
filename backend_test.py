@@ -52,15 +52,19 @@ class ServexBackendTester:
     def test_login_and_auth(self):
         """Test login with admin credentials"""
         try:
-            # Test login
+            # Test login with correct credentials
             login_data = {
-                "email": "admin@servex.com",
-                "password": "password123"
+                "email": "admin@servex.com", 
+                "password": "Servex2026!"
             }
             response = self.session.post(f"{self.base_url}/api/auth/login", 
                                        json=login_data, timeout=10)
             
             if response.status_code == 200:
+                data = response.json()
+                # Store cookies/tokens for future requests
+                if 'token' in data:
+                    self.session.headers.update({'Authorization': f'Bearer {data["token"]}'})
                 self.log_test("Admin Login", True, endpoint="/api/auth/login")
                 return True
             else:
