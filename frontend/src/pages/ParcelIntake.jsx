@@ -1064,20 +1064,20 @@ export function ParcelIntake() {
                 <table className="w-full border-collapse" data-testid="parcel-table">
                   {/* Fixed header */}
                   <thead className="sticky top-0 z-10">
-                    <tr className="bg-[#6B633C] text-white text-sm">
-                      <th className="px-3 py-3 text-left font-medium w-[90px]">Date</th>
-                      <th className="px-3 py-3 text-center font-medium w-[50px]">No</th>
-                      <th className="px-3 py-3 text-left font-medium w-[140px]">Sub-Client / Sender</th>
-                      <th className="px-3 py-3 text-left font-medium min-w-[200px]">Description *</th>
-                      <th className="px-3 py-3 text-right font-medium w-[90px]">Qty</th>
-                      <th className="px-3 py-3 text-right font-medium w-[100px]">Weight (kg) *</th>
-                      <th className="px-3 py-3 text-right font-medium w-[100px]">L (cm)</th>
-                      <th className="px-3 py-3 text-right font-medium w-[100px]">W (cm)</th>
-                      <th className="px-3 py-3 text-right font-medium w-[100px]">H (cm)</th>
-                      <th className="px-3 py-3 text-right font-medium w-[100px]">Vol Wt</th>
-                      <th className="px-3 py-3 text-right font-medium w-[110px]">Chargeable</th>
-                      <th className="px-3 py-3 text-center font-medium w-[50px]">📷</th>
-                      <th className="px-3 py-3 text-center font-medium w-[50px]">⋮</th>
+                    <tr className="bg-[#6B633C] text-white text-xs">
+                      <th className="px-2 py-2 text-left font-medium w-[80px]">Date</th>
+                      <th className="px-2 py-2 text-center font-medium w-[40px]">No</th>
+                      <th className="px-2 py-2 text-left font-medium w-[120px]">Sub-Client / Sender</th>
+                      <th className="px-2 py-2 text-left font-medium min-w-[180px]">Description *</th>
+                      <th className="px-2 py-2 text-right font-medium w-[70px]">Qty</th>
+                      <th className="px-2 py-2 text-right font-medium w-[90px]">Weight (kg) *</th>
+                      <th className="px-2 py-2 text-right font-medium w-[80px]">L (cm)</th>
+                      <th className="px-2 py-2 text-right font-medium w-[80px]">W (cm)</th>
+                      <th className="px-2 py-2 text-right font-medium w-[80px]">H (cm)</th>
+                      <th className="px-2 py-2 text-right font-medium w-[80px]">Vol Wt</th>
+                      <th className="px-2 py-2 text-right font-medium w-[90px]">Chargeable</th>
+                      <th className="px-2 py-2 text-center font-medium w-[40px]">📷</th>
+                      <th className="px-2 py-2 text-center font-medium w-[40px]">⋮</th>
                     </tr>
                   </thead>
                   <tbody>
