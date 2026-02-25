@@ -1074,6 +1074,27 @@ export function Warehouse() {
                   </Badge>
                 )}
               </Button>
+
+              {/* Session G: Collection Mode Toggle */}
+              <Button
+                variant={collectionMode ? "default" : "outline"}
+                onClick={() => {
+                  setCollectionMode(!collectionMode);
+                  if (!collectionMode) {
+                    // When entering collection mode, filter to 'arrived' status
+                    addFilter('status', 'arrived');
+                    toast.info('Collection mode ON - showing arrived parcels');
+                  } else {
+                    removeFilter('status', 'arrived');
+                    toast.info('Collection mode OFF');
+                  }
+                }}
+                className={cn("gap-1 h-9 shrink-0", collectionMode && "bg-purple-600 hover:bg-purple-700")}
+                data-testid="collection-mode-btn"
+              >
+                <ScanLine className="h-4 w-4" />
+                {collectionMode ? 'Exit Collection' : 'Collection Mode'}
+              </Button>
             </div>
 
             {/* Active filter badges */}
