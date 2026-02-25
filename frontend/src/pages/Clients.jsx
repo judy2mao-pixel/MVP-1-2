@@ -378,6 +378,98 @@ export function Clients() {
                     </Select>
                   </div>
                 </div>
+
+                
+                {/* SESSION E: Extended Client Fields */}
+                <Separator className="my-4" />
+                <h4 className="font-semibold text-sm mb-3">Additional Information</h4>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="position">Contact Position</Label>
+                    <Input
+                      id="position"
+                      placeholder="e.g., Operations Manager"
+                      value={formData.position}
+                      onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                      data-testid="client-position-input"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="owner">Account Owner</Label>
+                    <Input
+                      id="owner"
+                      placeholder="Account manager name"
+                      value={formData.owner}
+                      onChange={(e) => setFormData({ ...formData, owner: e.target.value })}
+                      data-testid="client-owner-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="place_of_business">Place of Business</Label>
+                  <Input
+                    id="place_of_business"
+                    placeholder="Primary business location"
+                    value={formData.place_of_business}
+                    onChange={(e) => setFormData({ ...formData, place_of_business: e.target.value })}
+                    data-testid="client-place-input"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="relationship">Relationship Type</Label>
+                    <Select
+                      value={formData.relationship_nature}
+                      onValueChange={(value) => setFormData({ ...formData, relationship_nature: value })}
+                    >
+                      <SelectTrigger data-testid="client-relationship-select">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="regular">Regular</SelectItem>
+                        <SelectItem value="vip">VIP</SelectItem>
+                        <SelectItem value="bulk">Bulk/Corporate</SelectItem>
+                        <SelectItem value="retail">Retail</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="frequency">Shipping Frequency</Label>
+                    <Select
+                      value={formData.frequency}
+                      onValueChange={(value) => setFormData({ ...formData, frequency: value })}
+                    >
+                      <SelectTrigger data-testid="client-frequency-select">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="daily">Daily</SelectItem>
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="bi-weekly">Bi-Weekly</SelectItem>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="quarterly">Quarterly</SelectItem>
+                        <SelectItem value="yearly">Yearly</SelectItem>
+                        <SelectItem value="sporadic">Sporadic</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="estimated_value">Estimated Annual Value</Label>
+                  <Input
+                    id="estimated_value"
+                    type="number"
+                    placeholder="0.00"
+                    value={formData.estimated_value}
+                    onChange={(e) => setFormData({ ...formData, estimated_value: parseFloat(e.target.value) || 0 })}
+                    data-testid="client-value-input"
+                  />
+                  <p className="text-xs text-muted-foreground">Estimated annual shipping value in base currency</p>
+                </div>
                 <DialogFooter>
                   <Button type="submit" data-testid="save-client-btn">
                     {editingClient ? 'Update' : 'Create'} Client
