@@ -211,7 +211,7 @@ export function Dashboard() {
         </div>
 
         {/* Row 1: Revenue */}
-        <div className="bg-yellow-50/30 p-4 rounded-lg">
+        <div className="bg-yellow-50 bg-opacity-30 p-4 rounded-lg border border-yellow-100">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Revenue</p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <KpiTile
