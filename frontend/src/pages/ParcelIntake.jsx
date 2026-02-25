@@ -1091,10 +1091,10 @@ export function ParcelIntake() {
                         style={{ height: '40px' }}
                       >
                         {/* Date - Auto (darker) */}
-                        <td className="px-3 py-2 text-sm text-gray-700 align-middle">{today}</td>
+                        <td className="px-2 py-1 text-xs text-gray-700 align-middle">{today}</td>
                         
                         {/* No - Auto (darker) */}
-                        <td className="px-3 py-2 text-center text-sm text-gray-700 align-middle">{index + 1}</td>
+                        <td className="px-2 py-1 text-center text-xs text-gray-700 align-middle">{index + 1}</td>
                         
                         {/* Sender - INPUT (editable for sub-clients) */}
                         <td className="px-2 py-2 align-middle">
