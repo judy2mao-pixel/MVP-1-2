@@ -540,7 +540,7 @@ export function Trips() {
                           className="hover:bg-gray-50 cursor-pointer"
                           onClick={() => navigate(`/trips/${trip.id}`)}
                         >
-                          <TableCell className="font-bold text-lg">{trip.trip_number}</TableCell>
+                          <TableCell className="font-bold text-base">{trip.trip_number}</TableCell>
                           <TableCell className="text-sm">
                             {trip.route && trip.route.length > 0 ? trip.route.join(' → ') : '—'}
                           </TableCell>
