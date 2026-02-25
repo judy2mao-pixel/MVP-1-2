@@ -10,6 +10,7 @@ import { Switch } from '../components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Checkbox } from '../components/ui/checkbox';
 import { Badge } from '../components/ui/badge';
+import WhatsAppTemplateEditor from '../components/WhatsAppTemplateEditor';
 import {
   Dialog,
   DialogContent,
