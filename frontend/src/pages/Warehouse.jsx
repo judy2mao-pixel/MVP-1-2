@@ -985,6 +985,7 @@ export function Warehouse() {
               <Button
                 variant={uninvoicedOnly ? "default" : "outline"}
                 onClick={() => { setUninvoicedOnly(!uninvoicedOnly); setPage(1); }}
+                className="h-10"
                 data-testid="uninvoiced-toggle-btn"
               >
                 Uninvoiced Only
@@ -992,7 +993,7 @@ export function Warehouse() {
 
               {/* Sort */}
               <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
-                <SelectTrigger className="w-[200px]" data-testid="sort-select">
+                <SelectTrigger className="w-[200px] h-10" data-testid="sort-select">
                   <ArrowUpDown className="h-4 w-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -1007,7 +1008,7 @@ export function Warehouse() {
               <Button
                 variant="outline"
                 onClick={() => setFilterPanelOpen(true)}
-                className="gap-2"
+                className="gap-2 h-10"
                 data-testid="add-filter-btn"
               >
                 <Filter className="h-4 w-4" />
