@@ -267,13 +267,13 @@ async def create_shipments_and_invoices(tenant_id, user_id, clients, trips, ware
     total_line_items = 0
     
     for trip in trips:
-        # Number of clients per trip (increased for more parcels)
-        num_clients = random.randint(12, 25)
+        # Number of clients per trip (reduced for ~100 parcels total)
+        num_clients = random.randint(5, 10)
         trip_clients = random.sample(clients, min(num_clients, len(clients)))
         
         for client in trip_clients:
-            # Parcels per client for this trip (increased to reach ~400 total)
-            num_parcels = random.randint(2, 8)
+            # Parcels per client for this trip (reduced to reach ~100 total)
+            num_parcels = random.randint(1, 3)
             
             # Create invoice first
             invoice_id = gen_id()
