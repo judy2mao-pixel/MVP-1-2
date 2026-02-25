@@ -533,16 +533,16 @@ Servex Holdings`;
 
   return (
     <>
-      <div className="space-y-6" data-testid="finance-page">
+      <div className="space-y-4" data-testid="finance-page">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-[#3C3F42]">Finance</h1>
+            <h1 className="text-xl sm:text-2xl font-bold text-[#3C3F42]">Finance</h1>
             <p className="text-gray-500 text-sm">Manage invoices, statements, and payments</p>
           </div>
           
           {/* Currency Toggle - Global for all tabs */}
-          <div className="flex items-center gap-3 bg-white border rounded-lg px-4 py-2" data-testid="currency-toggle">
+          <div className="flex items-center gap-2 bg-white border rounded-lg px-3 py-1.5" data-testid="currency-toggle">
             <span className={cn("text-sm font-medium transition-colors", displayCurrency === 'ZAR' ? "text-[#6B633C]" : "text-gray-400")}>
               ZAR
             </span>
