@@ -1195,12 +1195,12 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Volumetric Weight - CALC */}
-                        <td className="px-3 py-2 text-right text-sm text-gray-400 italic align-middle">
+                        <td className="px-2 py-1 text-right text-xs text-gray-400 italic align-middle">
                           {row.volumetricWeight > 0 ? row.volumetricWeight.toFixed(2) : '-'}
                         </td>
                         
                         {/* Chargeable Weight - CALC (max of actual vs volumetric) */}
-                        <td className="px-3 py-2 text-right text-sm font-medium">
+                        <td className="px-2 py-1 text-right text-xs font-medium">
                           {(() => {
                             const chargeableWt = calculateChargeableWeight(row.weight, row.volumetricWeight);
                             if (chargeableWt === 0) return <span className="text-gray-400 italic">-</span>;
