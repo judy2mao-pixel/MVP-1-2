@@ -1269,9 +1269,22 @@ export function Warehouse() {
                         </TableCell>
                         <TableCell className="hidden md:table-cell text-sm">{parcel.destination}</TableCell>
                         <TableCell>
-                          <Badge className={cn('text-xs capitalize', statusColors[parcel.status])}>
-                            {statusLabels[parcel.status] || parcel.status}
-                          </Badge>
+                          <div className="flex items-center gap-1">
+                            <Badge className={cn('text-xs capitalize', statusColors[parcel.status])}>
+                              {statusLabels[parcel.status] || parcel.status}
+                            </Badge>
+                            {collectionMode && parcel.status === 'arrived' && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-6 px-2 text-xs bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100"
+                                onClick={(e) => { e.stopPropagation(); handleCollectionCheck(parcel.id); }}
+                              >
+                                <Check className="h-3 w-3 mr-1" />
+                                Collect
+                              </Button>
+                            )}
+                          </div>
                         </TableCell>
                         <TableCell className="hidden lg:table-cell">
                           {parcel.trip_number ? (
