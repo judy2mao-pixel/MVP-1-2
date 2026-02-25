@@ -40,7 +40,7 @@ import { toast } from 'sonner';
 import { 
   Building2, Save, Loader2, Calculator, Bell, Database, 
   Upload, Download, RefreshCw, Shield, Warehouse, DollarSign,
-  Plus, Pencil, Trash2, AlertTriangle, FileSpreadsheet, Users, FileText, X
+  Plus, Pencil, Trash2, AlertTriangle, FileSpreadsheet, Users, FileText, X, MessageSquare
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
