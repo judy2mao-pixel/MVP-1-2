@@ -917,22 +917,22 @@ export function Warehouse() {
           <CardContent className="py-3 px-4">
             <div className="flex flex-wrap gap-2 items-center">
               {/* Search */}
-              <div className="relative flex-1 min-w-[200px]">
+              <div className="relative flex-1 min-w-[180px]">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                   placeholder="Search parcels or client name..."
                   value={search}
                   onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                  className="pl-9"
+                  className="pl-9 h-9"
                   data-testid="warehouse-search-input"
                 />
               </div>
 
               {/* Warehouse dropdown */}
               <Select value={selectedWarehouse} onValueChange={setSelectedWarehouse}>
-                <SelectTrigger className="w-[180px]" data-testid="warehouse-select">
-                  <WarehouseIcon className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Select Warehouse" />
+                <SelectTrigger className="w-[150px] h-9" data-testid="warehouse-select">
+                  <WarehouseIcon className="h-4 w-4 mr-1" />
+                  <SelectValue placeholder="Warehouse" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Warehouses</SelectItem>
@@ -953,8 +953,8 @@ export function Warehouse() {
                   }
                 }}
               >
-                <SelectTrigger className="w-[180px]" data-testid="client-filter-select">
-                  <SelectValue placeholder="Filter by Client" />
+                <SelectTrigger className="w-[150px] h-9" data-testid="client-filter-select">
+                  <SelectValue placeholder="Client" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Clients</SelectItem>
@@ -966,9 +966,9 @@ export function Warehouse() {
 
               {/* Trip filter dropdown */}
               <Select value={tripFilter} onValueChange={(v) => { setTripFilter(v); setPage(1); }}>
-                <SelectTrigger className="w-[180px]" data-testid="trip-filter-select">
-                  <Truck className="h-4 w-4 mr-2" />
-                  <SelectValue placeholder="Filter by Trip" />
+                <SelectTrigger className="w-[150px] h-9" data-testid="trip-filter-select">
+                  <Truck className="h-4 w-4 mr-1" />
+                  <SelectValue placeholder="Trip" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Trips</SelectItem>
@@ -985,16 +985,16 @@ export function Warehouse() {
               <Button
                 variant={uninvoicedOnly ? "default" : "outline"}
                 onClick={() => { setUninvoicedOnly(!uninvoicedOnly); setPage(1); }}
-                className="h-10"
+                className="h-9 text-sm"
                 data-testid="uninvoiced-toggle-btn"
               >
-                Uninvoiced Only
+                Uninvoiced
               </Button>
 
               {/* Sort */}
               <Select value={sortBy} onValueChange={(v) => { setSortBy(v); setPage(1); }}>
-                <SelectTrigger className="w-[200px] h-10" data-testid="sort-select">
-                  <ArrowUpDown className="h-4 w-4 mr-2" />
+                <SelectTrigger className="w-[170px] h-9" data-testid="sort-select">
+                  <ArrowUpDown className="h-4 w-4 mr-1" />
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -1008,11 +1008,11 @@ export function Warehouse() {
               <Button
                 variant="outline"
                 onClick={() => setFilterPanelOpen(true)}
-                className="gap-2 h-10"
+                className="gap-1 h-9 shrink-0"
                 data-testid="add-filter-btn"
               >
                 <Filter className="h-4 w-4" />
-                Add Filter
+                Filters
                 {activeFilterCount > 0 && (
                   <Badge className="ml-1 h-5 w-5 p-0 flex items-center justify-center rounded-full">
                     {activeFilterCount}
