@@ -261,7 +261,6 @@ export function Dashboard() {
               label="In Warehouse" 
               value={(ops.warehouse ?? 0).toLocaleString()} 
               sub="parcels" 
-              sparkline={ops.warehouse_sparkline}
               isLoading={loading} 
               icon={Warehouse} 
               href="/warehouse" 
@@ -270,7 +269,6 @@ export function Dashboard() {
               label="In Transit" 
               value={(ops.in_transit ?? 0).toLocaleString()} 
               sub="shipments" 
-              sparkline={ops.in_transit_sparkline}
               isLoading={loading} 
               icon={Truck} 
               href="/trips" 
@@ -279,7 +277,6 @@ export function Dashboard() {
               label="Awaiting Collection" 
               value={(ops.awaiting_collection ?? 0).toLocaleString()} 
               sub="arrived parcels" 
-              sparkline={ops.awaiting_collection_sparkline}
               isLoading={loading} 
               icon={Clock} 
               href="/warehouse" 
@@ -288,7 +285,6 @@ export function Dashboard() {
               label="Uninvoiced Parcels" 
               value={(ops.uninvoiced_parcels ?? 0).toLocaleString()} 
               sub="no invoice attached" 
-              sparkline={ops.uninvoiced_sparkline}
               isLoading={loading} 
               icon={Package} 
               redBorder={ops.uninvoiced_parcels > 0} 
