@@ -452,16 +452,16 @@ export function Trips() {
 
   return (
     <>
-      <div className="p-6" data-testid="trips-page">
+      <div className="p-4 sm:p-6" data-testid="trips-page">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-bold text-[#3C3F42]">Trip Manager</h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#3C3F42]">Trip Manager</h1>
           <Button 
-            className="bg-[#6B633C] hover:bg-[#5a5332] text-white"
+            className="bg-[#6B633C] hover:bg-[#5a5332] text-white h-8 text-xs"
             onClick={openCreateDialog}
             data-testid="create-trip-btn"
           >
-            <Plus className="h-4 w-4 mr-2" /> Create Trip
+            <Plus className="h-3 w-3 mr-1" /> Create Trip
           </Button>
         </div>
 
@@ -472,7 +472,7 @@ export function Trips() {
               key={tab.value}
               variant={statusFilter === tab.value ? 'default' : 'outline'}
               className={statusFilter === tab.value 
-                ? 'bg-[#6B633C] hover:bg-[#5a5332] text-white' 
+                ? 'bg-[#6B633C] hover:bg-[#5a5332] text-white h-7 text-xs' 
                 : 'border-gray-300 text-gray-600 hover:bg-gray-100'
               }
               onClick={() => setStatusFilter(tab.value)}
