@@ -323,15 +323,18 @@ frontend:
 
   - task: "Warehouse Filter Button (off screen fix)"
     implemented: true
-    working: true
+    working: false
     file: "frontend/src/pages/Warehouse.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "main"
         comment: "Fixed with flex-wrap - Filters button wraps to next line"
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL ISSUE: 'Filters' button not found on Warehouse page. Could not locate element with data-testid='add-filter-btn'. Also, 'Collection Mode' button not found with data-testid='collection-mode-btn'. From warehouse screenshot, the page loaded but these specific buttons are missing or have different test IDs. Requires investigation of actual UI implementation."
 
   - task: "Dashboard KPIs"
     implemented: true
