@@ -491,7 +491,9 @@ class ServexAPITester:
             self.test_invoices_api,
             self.test_finance_api,
             self.test_shipments_api,
-            self.test_whatsapp_templates_api
+            self.test_whatsapp_templates_api,
+            self.test_collection_workflow_api,  # NEW
+            self.test_finance_pdf_api  # NEW
         ]
         
         all_passed = True
