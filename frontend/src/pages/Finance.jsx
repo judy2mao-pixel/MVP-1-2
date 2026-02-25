@@ -778,6 +778,7 @@ Servex Holdings`;
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           </TabsContent>
 
