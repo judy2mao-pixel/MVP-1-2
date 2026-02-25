@@ -798,6 +798,9 @@ export function Settings() {
             <TabsTrigger value="whatsapp" data-testid="tab-whatsapp">
               <MessageSquare className="h-4 w-4 mr-2" />WhatsApp
             </TabsTrigger>
+            <TabsTrigger value="printnode" data-testid="tab-printnode">
+              <Printer className="h-4 w-4 mr-2" />PrintNode
+            </TabsTrigger>
           </TabsList>
 
           {/* Company Profile */}
