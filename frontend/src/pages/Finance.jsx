@@ -143,6 +143,8 @@ export function Finance() {
   // Overdue state
   const [overdueData, setOverdueData] = useState({ invoices: [], total_overdue: 0, count: 0 });
   const [selectedOverdue, setSelectedOverdue] = useState([]);
+  const [overdueTripFilter, setOverdueTripFilter] = useState('all');
+  const [overdueSortBy, setOverdueSortBy] = useState('days_overdue');
   
   // Client Debt state
   const [clientDebtData, setClientDebtData] = useState([]);
