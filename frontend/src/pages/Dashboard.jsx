@@ -58,14 +58,14 @@ function KpiTile({ label, value, sub, changePct, sparkline, isLoading, redBorder
   const up = changePct >= 0;
   const content = (
     <Card className={cn(
-      "rounded-xl shadow-sm border hover:shadow-md transition-shadow min-h-[140px] flex flex-col justify-between",
+      "rounded-xl shadow-sm border hover:shadow-md transition-shadow min-h-[120px] flex flex-col justify-between",
       redBorder && "border-red-400"
     )}>
-      <CardContent className="p-4 flex flex-col h-full">
+      <CardContent className="p-3 flex flex-col h-full">
         {isLoading ? (
           <div className="space-y-2">
             <Skeleton className="h-3 w-20" />
-            <Skeleton className="h-7 w-28" />
+            <Skeleton className="h-6 w-28" />
             <Skeleton className="h-3 w-16" />
           </div>
         ) : (
@@ -73,9 +73,9 @@ function KpiTile({ label, value, sub, changePct, sparkline, isLoading, redBorder
             <div>
               <div className="flex items-center justify-between mb-1">
                 <p className="text-xs text-muted-foreground font-medium uppercase tracking-wide">{label}</p>
-                {Icon && <Icon className="h-3.5 w-3.5 text-muted-foreground" />}
+                {Icon && <Icon className="h-3 w-3 text-muted-foreground" />}
               </div>
-              <p className="text-2xl font-bold text-[#3C3F42] leading-none mb-1">{value}</p>
+              <p className="text-xl font-bold text-[#3C3F42] leading-none mb-1">{value}</p>
               <div className="flex items-center gap-2 flex-wrap">
                 {sub && <span className="text-xs text-muted-foreground">{sub}</span>}
                 {changePct !== undefined && (
@@ -90,7 +90,7 @@ function KpiTile({ label, value, sub, changePct, sparkline, isLoading, redBorder
               </div>
             </div>
             {/* Sparkline or placeholder for equal height */}
-            <div className="mt-2 h-[32px]">
+            <div className="mt-2 h-[28px]">
               {sparkline && sparkline.length > 0
                 ? <Sparkline data={sparkline} />
                 : null
