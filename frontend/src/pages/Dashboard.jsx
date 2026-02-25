@@ -201,9 +201,9 @@ export function Dashboard() {
             { to: '/trips/new', icon: Truck, label: 'Create Trip' },
             { to: '/scanner', icon: BarChart2, label: 'Scan Barcode' }
           ].map(({ to, icon: Icon, label }) => (
-            <Button key={to} variant="outline" size="sm" asChild className="h-10">
+            <Button key={to} variant="outline" size="sm" asChild className="h-8 text-xs">
               <Link to={to}>
-                <Icon className="h-3.5 w-3.5 mr-1.5" />
+                <Icon className="h-3 w-3 mr-1" />
                 {label}
               </Link>
             </Button>
