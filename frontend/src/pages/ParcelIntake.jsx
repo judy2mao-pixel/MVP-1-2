@@ -1085,10 +1085,10 @@ export function ParcelIntake() {
                       <tr 
                         key={row.id}
                         className={cn(
-                          "border-b border-gray-100 hover:bg-[#E8E4D0]/30 transition-colors min-h-[48px]",
+                          "border-b border-gray-100 hover:bg-[#E8E4D0]/30 transition-colors",
                           index % 2 === 1 && "bg-gray-50/50"
                         )}
-                        style={{ height: '48px' }}
+                        style={{ height: '40px' }}
                       >
                         {/* Date - Auto (darker) */}
                         <td className="px-3 py-2 text-sm text-gray-700 align-middle">{today}</td>
