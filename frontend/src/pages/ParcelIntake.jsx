@@ -931,7 +931,7 @@ export function ParcelIntake() {
           </div>
 
           {/* Invoice Assignment Row */}
-          <div className="mt-4 flex items-center gap-4">
+          <div className="mt-2 flex items-center gap-4">
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
