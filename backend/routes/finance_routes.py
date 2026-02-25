@@ -599,8 +599,18 @@ async def get_overdue_invoices(
             "outstanding": outstanding
         })
     
-    # Sort by days overdue (most overdue first)
-    result.sort(key=lambda x: x["days_overdue"], reverse=True)
+    # Sort based on sort_by parameter
+    if sort_by == "amount_desc":
+        result.sort(key=lambda x: x["outstanding"], reverse=True)
+    elif sort_by == "amount_asc":
+        result.sort(key=lambda x: x["outstanding"])
+    elif sort_by == "client_asc":
+        result.sort(key=lambda x: x["client_name"].lower())
+    elif sort_by == "client_desc":
+        result.sort(key=lambda x: x["client_name"].lower(), reverse=True)
+    else:
+        # Default: sort by days overdue (most overdue first)
+        result.sort(key=lambda x: x["days_overdue"], reverse=True)
     
     return {
         "invoices": result,
