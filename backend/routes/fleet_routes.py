@@ -641,16 +641,48 @@ async def get_dashboard_stats(
     collection_rate = round(total_collected_all / collection_denom * 100, 1) if collection_denom > 0 else 0
 
     # --- SPARKLINE: 8 weekly revenue totals (last 8 weeks) ---
-    sparkline = []
+    revenue_sparkline = []
+    receivables_sparkline = []
+    overdue_sparkline = []
+    collection_rate_sparkline = []
+    
     for i in range(7, -1, -1):
         wk_end = now - timedelta(weeks=i)
         wk_start = wk_end - timedelta(weeks=1)
+        
+        # Revenue sparkline
         wk_data = await db.invoices.find({
             "tenant_id": tenant_id,
             "status": "paid",
             "created_at": {"$gte": wk_start.isoformat(), "$lt": wk_end.isoformat()}
         }, {"_id": 0, "paid_amount": 1, "total": 1}).to_list(1000)
-        sparkline.append(round(sum(inv.get("paid_amount", inv.get("total", 0)) for inv in wk_data), 2))
+        revenue_sparkline.append(round(sum(inv.get("paid_amount", inv.get("total", 0)) for inv in wk_data), 2))
+        
+        # Accounts receivable sparkline (snapshot of open invoices at end of week)
+        wk_open = await db.invoices.find({
+            "tenant_id": tenant_id,
+            "status": {"$in": ["sent", "overdue", "partial"]},
+            "created_at": {"$lt": wk_end.isoformat()}
+        }, {"_id": 0, "total": 1, "paid_amount": 1}).to_list(5000)
+        receivables_sparkline.append(round(sum(inv.get("total", 0) - inv.get("paid_amount", 0) for inv in wk_open), 2))
+        
+        # Overdue sparkline
+        wk_overdue = await db.invoices.find({
+            "tenant_id": tenant_id,
+            "status": "overdue",
+            "created_at": {"$lt": wk_end.isoformat()}
+        }, {"_id": 0, "total": 1, "paid_amount": 1}).to_list(5000)
+        overdue_sparkline.append(round(sum(inv.get("total", 0) - inv.get("paid_amount", 0) for inv in wk_overdue), 2))
+        
+        # Collection rate sparkline
+        wk_all = await db.invoices.find({
+            "tenant_id": tenant_id,
+            "created_at": {"$gte": wk_start.isoformat(), "$lt": wk_end.isoformat()}
+        }, {"_id": 0, "paid_amount": 1, "total": 1}).to_list(5000)
+        wk_collected = sum(inv.get("paid_amount", 0) for inv in wk_all)
+        wk_total = sum(inv.get("total", 0) for inv in wk_all)
+        wk_rate = round((wk_collected / wk_total * 100) if wk_total > 0 else 0, 1)
+        collection_rate_sparkline.append(wk_rate)
 
     # --- OPS STATS ---
     in_transit = await db.shipments.count_documents({"tenant_id": tenant_id, "status": "in_transit"})
