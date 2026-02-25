@@ -394,6 +394,83 @@ class ServexAPITester:
         else:
             return self.log_test("TEMPLATES_WHATSAPP", False, f"Expected templates object with 'templates' key, got: {type(templates_data)}")
 
+    def test_collection_workflow_api(self):
+        """Test NEW collection workflow endpoints"""
+        print("\n=== Testing Collection Workflow (NEW) ===")
+        
+        # First, get parcels with "arrived" status
+        arrived_response = self.make_request("GET", "/warehouse/parcels", params={"status": "arrived", "page": 1, "page_size": 5})
+        
+        if not arrived_response["success"]:
+            return self.log_test("COLLECTION_GET_ARRIVED", False, f"Failed to get arrived parcels: {arrived_response.get('data', {}).get('detail', 'Unknown error')}")
+        
+        arrived_data = arrived_response["data"]
+        arrived_parcels = arrived_data.get("items", [])
+        
+        if not arrived_parcels:
+            return self.log_test("COLLECTION_GET_ARRIVED", False, "No parcels with 'arrived' status found for testing collection workflow")
+        
+        success = self.log_test("COLLECTION_GET_ARRIVED", True, f"Found {len(arrived_parcels)} arrived parcels", {"count": len(arrived_parcels)})
+        
+        # Test collection check for the first arrived parcel
+        test_parcel_id = arrived_parcels[0]["id"]
+        parcel_desc = arrived_parcels[0].get("description", "Unknown")
+        
+        check_response = self.make_request("GET", f"/warehouse/parcels/{test_parcel_id}/collection-check")
+        
+        if not check_response["success"]:
+            success = self.log_test("COLLECTION_CHECK", False, f"Collection check failed: {check_response.get('data', {}).get('detail', 'Unknown error')}") and success
+        else:
+            check_data = check_response["data"]
+            can_collect = check_data.get("can_collect", False)
+            warning = check_data.get("warning", "none")
+            payment_status = check_data.get("payment_status", "unknown")
+            success = self.log_test("COLLECTION_CHECK", True, f"Collection check for parcel {parcel_desc} - Can collect: {can_collect}, Payment: {payment_status}, Warning: {warning}", check_data) and success
+        
+        # Test collect parcel
+        collect_data = {"confirmation_note": "Testing collection workflow from backend test"}
+        collect_response = self.make_request("POST", f"/warehouse/parcels/{test_parcel_id}/collect", collect_data)
+        
+        if not collect_response["success"]:
+            success = self.log_test("COLLECTION_COLLECT", False, f"Parcel collection failed: {collect_response.get('data', {}).get('detail', 'Unknown error')}") and success
+        else:
+            collect_result = collect_response["data"]
+            collected_success = collect_result.get("success", False)
+            admin_notified = collect_result.get("admin_notified", False)
+            success = self.log_test("COLLECTION_COLLECT", True, f"Parcel {parcel_desc} collected successfully - Admin notified: {admin_notified}", collect_result) and success
+        
+        return success
+
+    def test_finance_pdf_api(self):
+        """Test NEW finance PDF endpoints"""
+        print("\n=== Testing Finance PDF APIs (NEW) ===")
+        
+        # Get a client for testing PDF generation
+        clients_response = self.make_request("GET", "/clients")
+        
+        if not clients_response["success"] or not clients_response["data"]:
+            return self.log_test("FINANCE_PDF_GET_CLIENT", False, "No clients found for PDF testing")
+        
+        clients = clients_response["data"]
+        test_client_id = clients[0]["id"]
+        client_name = clients[0].get("name", "Unknown")
+        
+        success = self.log_test("FINANCE_PDF_GET_CLIENT", True, f"Using client {client_name} for PDF testing", {"client_id": test_client_id})
+        
+        # Test client statement PDF generation
+        pdf_response = self.make_request("GET", f"/finance/client-statement/{test_client_id}/pdf")
+        
+        if not pdf_response["success"]:
+            success = self.log_test("FINANCE_CLIENT_STATEMENT_PDF", False, f"Client statement PDF failed: {pdf_response.get('data', {}).get('detail', 'Unknown error')}") and success
+        else:
+            # Check if response is PDF format
+            content_type = pdf_response.get("headers", {}).get("content-type", "")
+            content_disposition = pdf_response.get("headers", {}).get("content-disposition", "")
+            is_pdf = "application/pdf" in content_type or ".pdf" in content_disposition
+            success = self.log_test("FINANCE_CLIENT_STATEMENT_PDF", True, f"Client statement PDF generated for {client_name} - Content-Type: {content_type}, Is PDF: {is_pdf}", {"content_type": content_type, "is_pdf": is_pdf}) and success
+        
+        return success
+
     def run_all_tests(self):
         """Run comprehensive test suite"""
         print("🚀 Starting Servex Holdings Backend API Test Suite")
