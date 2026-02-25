@@ -1097,7 +1097,7 @@ export function ParcelIntake() {
                         <td className="px-2 py-1 text-center text-xs text-gray-700 align-middle">{index + 1}</td>
                         
                         {/* Sender - INPUT (editable for sub-clients) */}
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-1.5 py-1 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-sender`] = el}
                             value={row.sender}
@@ -1110,7 +1110,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Description - INPUT (lighter placeholder) */}
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-1.5 py-1 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-description`] = el}
                             value={row.description}
@@ -1123,7 +1123,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Qty - INPUT */}
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-1.5 py-1 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-qty`] = el}
                             type="number"
@@ -1137,7 +1137,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Weight (Kg) - INPUT */}
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-1.5 py-1 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-weight`] = el}
                             type="number"
@@ -1153,7 +1153,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Length - INPUT */}
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-1.5 py-1 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-length`] = el}
                             type="number"
@@ -1167,7 +1167,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Width - INPUT */}
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-1.5 py-1 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-width`] = el}
                             type="number"
@@ -1181,7 +1181,7 @@ export function ParcelIntake() {
                         </td>
                         
                         {/* Height - INPUT */}
-                        <td className="px-2 py-2 align-middle">
+                        <td className="px-1.5 py-1 align-middle">
                           <Input
                             ref={(el) => inputRefs.current[`${row.id}-height`] = el}
                             type="number"
