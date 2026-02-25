@@ -519,16 +519,28 @@ async def get_trip_worksheet_pdf(trip_id: str, tenant_id: str = Depends(get_tena
 # ============ FINANCE - OVERDUE INVOICES ============
 
 @router.get("/finance/overdue")
-async def get_overdue_invoices(tenant_id: str = Depends(get_tenant_id)):
-    """Get all overdue invoices sorted by days overdue"""
+async def get_overdue_invoices(
+    tenant_id: str = Depends(get_tenant_id),
+    trip_id: Optional[str] = None,
+    sort_by: Optional[str] = "amount_desc",
+    sort_order: Optional[str] = "desc"
+):
+    """Get all overdue invoices sorted by days overdue or amount or client name"""
     now = datetime.now(timezone.utc)
     
-    # Get invoices where due_date < now and status is not paid
-    invoices = await db.invoices.find({
+    # Build query
+    query = {
         "tenant_id": tenant_id,
         "status": {"$in": ["draft", "sent", "overdue"]},
         "due_date": {"$lt": now.isoformat()}
-    }).to_list(1000)
+    }
+    
+    # Add trip filter if provided
+    if trip_id:
+        query["trip_id"] = trip_id
+    
+    # Get invoices where due_date < now and status is not paid
+    invoices = await db.invoices.find(query).to_list(1000)
     
     # Get clients - use id field instead of _id
     client_ids = list(set(inv.get("client_id") for inv in invoices if inv.get("client_id")))
