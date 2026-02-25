@@ -317,6 +317,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "Fixed compact layout - all 3 rows visible at 1366x768"
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED at 1366x768: All 3 rows are visible and properly laid out. Table height is 171px which fits comfortably within viewport. No overlap detected. Rows display correctly with proper spacing."
 
   - task: "Warehouse Filter Button (off screen fix)"
     implemented: true
