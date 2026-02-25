@@ -281,3 +281,86 @@ async def create_client_rate(
     await db.client_rates.insert_one(doc)
     
     return rate
+
+
+# SESSION G: Collection Workflow Endpoints
+
+@router.get("/clients/{client_id}/outstanding-balance")
+async def get_client_outstanding_balance(
+    client_id: str,
+    tenant_id: str = Depends(get_tenant_id)
+):
+    """Calculate total outstanding balance for a client (SESSION G)"""
+    
+    # Verify client exists
+    client = await db.clients.find_one({"id": client_id, "tenant_id": tenant_id}, {"_id": 0})
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+    
+    # Get unpaid/partial invoices
+    invoices = await db.invoices.find({
+        "tenant_id": tenant_id,
+        "client_id": client_id,
+        "status": {"$in": ["draft", "sent", "overdue", "partial"]}
+    }, {"_id": 0}).to_list(1000)
+    
+    invoice_outstanding = sum(
+        inv.get("total", 0) - inv.get("paid_amount", 0)
+        for inv in invoices
+    )
+    
+    # Get uninvoiced parcels ready for collection
+    uninvoiced = await db.shipments.find({
+        "tenant_id": tenant_id,
+        "client_id": client_id,
+        "$or": [
+            {"invoice_id": None},
+            {"invoice_id": {"$exists": False}}
+        ],
+        "status": {"$in": ["warehouse", "arrived"]}
+    }, {"_id": 0}).to_list(1000)
+    
+    # Estimate uninvoiced value
+    client_rate_doc = await db.client_rates.find_one({
+        "client_id": client_id,
+        "status": "active"
+    }, {"_id": 0})
+    
+    rate_per_kg = client_rate_doc.get("rate_per_kg", 50) if client_rate_doc else 50
+    
+    uninvoiced_estimated = sum(
+        (p.get("weight", 5) * rate_per_kg) for p in uninvoiced
+    )
+    
+    return {
+        "client_id": client_id,
+        "client_name": client.get("name"),
+        "invoice_outstanding": round(invoice_outstanding, 2),
+        "uninvoiced_count": len(uninvoiced),
+        "uninvoiced_estimated": round(uninvoiced_estimated, 2),
+        "total_outstanding": round(invoice_outstanding + uninvoiced_estimated, 2),
+        "has_outstanding": (invoice_outstanding + uninvoiced_estimated) > 0,
+        "invoices": [
+            {
+                "id": inv["id"],
+                "invoice_number": inv.get("invoice_number"),
+                "total": inv.get("total"),
+                "paid_amount": inv.get("paid_amount", 0),
+                "outstanding": inv.get("total", 0) - inv.get("paid_amount", 0),
+                "due_date": inv.get("due_date"),
+                "status": inv.get("status")
+            }
+            for inv in invoices
+        ],
+        "uninvoiced_parcels": [
+            {
+                "id": p["id"],
+                "barcode": p.get("barcode"),
+                "description": p.get("description"),
+                "weight": p.get("weight"),
+                "status": p.get("status")
+            }
+            for p in uninvoiced[:20]
+        ]
+    }
+
