@@ -81,11 +81,11 @@ export function Clients() {
     default_currency: 'ZAR',
     // SESSION E: Extended fields
     position: '',
-    place_of_business: '',
-    relationship_nature: 'regular',
+    primary_place_of_business: '',
+    nature_of_relationship: 'regular',
     owner: '',
-    frequency: 'monthly',
-    estimated_value: 0
+    frequency_of_business: 'monthly',
+    estimated_value_per_trip: 0
   });
   
   const [rateForm, setRateForm] = useState({
