@@ -697,6 +697,87 @@ async def get_dashboard_stats(
     total_shipments = await db.shipments.count_documents({"tenant_id": tenant_id})
     total_clients = await db.clients.count_documents({"tenant_id": tenant_id, "status": "active"})
     total_trips = await db.trips.count_documents({"tenant_id": tenant_id})
+    
+    # --- OPERATIONS SPARKLINES (last 8 weeks) ---
+    warehouse_sparkline = []
+    in_transit_sparkline = []
+    awaiting_collection_sparkline = []
+    uninvoiced_sparkline = []
+    
+    for i in range(7, -1, -1):
+        wk_end = now - timedelta(weeks=i)
+        
+        # Warehouse sparkline (snapshot at end of week)
+        wk_warehouse = await db.shipments.count_documents({
+            "tenant_id": tenant_id,
+            "status": "warehouse",
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        warehouse_sparkline.append(wk_warehouse)
+        
+        # In transit sparkline
+        wk_transit = await db.shipments.count_documents({
+            "tenant_id": tenant_id,
+            "status": "in_transit",
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        in_transit_sparkline.append(wk_transit)
+        
+        # Awaiting collection sparkline
+        wk_awaiting = await db.shipments.count_documents({
+            "tenant_id": tenant_id,
+            "status": "arrived",
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        awaiting_collection_sparkline.append(wk_awaiting)
+        
+        # Uninvoiced sparkline
+        wk_uninvoiced = await db.shipments.count_documents({
+            "tenant_id": tenant_id,
+            "$or": [{"invoice_id": None}, {"invoice_id": {"$exists": False}}],
+            "status": {"$nin": ["collected", "delivered"]},
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        uninvoiced_sparkline.append(wk_uninvoiced)
+    
+    # --- SUMMARY SPARKLINES (last 8 weeks) ---
+    total_clients_sparkline = []
+    total_trips_sparkline = []
+    total_shipments_sparkline = []
+    delivered_sparkline = []
+    
+    for i in range(7, -1, -1):
+        wk_end = now - timedelta(weeks=i)
+        
+        # Total clients sparkline
+        wk_clients = await db.clients.count_documents({
+            "tenant_id": tenant_id,
+            "status": "active",
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        total_clients_sparkline.append(wk_clients)
+        
+        # Total trips sparkline
+        wk_trips = await db.trips.count_documents({
+            "tenant_id": tenant_id,
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        total_trips_sparkline.append(wk_trips)
+        
+        # Total shipments sparkline
+        wk_shipments = await db.shipments.count_documents({
+            "tenant_id": tenant_id,
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        total_shipments_sparkline.append(wk_shipments)
+        
+        # Delivered sparkline
+        wk_delivered = await db.shipments.count_documents({
+            "tenant_id": tenant_id,
+            "status": "delivered",
+            "created_at": {"$lt": wk_end.isoformat()}
+        })
+        delivered_sparkline.append(wk_delivered)
 
     # --- TRUCK UTILISATION: active trips ---
     active_trips = await db.trips.find({
