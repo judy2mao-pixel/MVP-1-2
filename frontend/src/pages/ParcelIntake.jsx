@@ -1104,7 +1104,7 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'sender', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'sender')}
                             placeholder={selectedClient?.name || 'Sender name'}
-                            className="h-9 text-sm border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
+                            className="h-8 text-xs border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
                             data-testid={`sender-${index}`}
                           />
                         </td>
@@ -1117,7 +1117,7 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'description', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'description')}
                             placeholder="e.g., Electronics, Wine, Clothing"
-                            className="h-9 text-sm border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
+                            className="h-8 text-xs border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40"
                             data-testid={`description-${index}`}
                           />
                         </td>
@@ -1131,7 +1131,7 @@ export function ParcelIntake() {
                             value={row.qty}
                             onChange={(e) => updateRow(row.id, 'qty', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'qty')}
-                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[70px]"
+                            className="h-8 text-xs text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[70px]"
                             data-testid={`qty-${index}`}
                           />
                         </td>
@@ -1147,7 +1147,7 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'weight', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'weight')}
                             placeholder="0.0"
-                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40 w-full min-w-[80px]"
+                            className="h-8 text-xs text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] placeholder:text-gray-400/40 w-full min-w-[80px]"
                             data-testid={`weight-${index}`}
                           />
                         </td>
@@ -1161,7 +1161,7 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'length', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'length')}
                             placeholder="0"
-                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
+                            className="h-8 text-xs text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
                             data-testid={`length-${index}`}
                           />
                         </td>
@@ -1175,7 +1175,7 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'width', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'width')}
                             placeholder="0"
-                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
+                            className="h-8 text-xs text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
                             data-testid={`width-${index}`}
                           />
                         </td>
@@ -1189,7 +1189,7 @@ export function ParcelIntake() {
                             onChange={(e) => updateRow(row.id, 'height', e.target.value)}
                             onKeyDown={(e) => handleKeyDown(e, row.id, 'height')}
                             placeholder="0"
-                            className="h-9 text-sm text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
+                            className="h-8 text-xs text-right border-gray-200 focus:border-[#6B633C] focus:ring-[#6B633C] w-full min-w-[80px]"
                             data-testid={`height-${index}`}
                           />
                         </td>
