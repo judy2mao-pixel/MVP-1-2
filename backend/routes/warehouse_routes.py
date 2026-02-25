@@ -294,6 +294,175 @@ async def bulk_update_parcel_status(
     return {"message": f"Updated {result.modified_count} parcels", "count": result.modified_count}
 
 
+# ============ COLLECTION WORKFLOW (SESSION G) ============
+
+@router.get("/warehouse/parcels/{parcel_id}/collection-check")
+async def check_collection_eligibility(
+    parcel_id: str,
+    tenant_id: str = Depends(get_tenant_id),
+    user: dict = Depends(get_current_user)
+):
+    """Check if a parcel can be collected. Returns warning if unpaid. (Session G P-16)"""
+    parcel = await db.shipments.find_one({"id": parcel_id, "tenant_id": tenant_id}, {"_id": 0})
+    if not parcel:
+        raise HTTPException(status_code=404, detail="Parcel not found")
+    
+    # Check parcel status
+    if parcel.get("status") != "arrived":
+        return {
+            "can_collect": False,
+            "reason": "not_arrived",
+            "message": f"Parcel has not arrived yet. Current status: {parcel.get('status', 'unknown')}"
+        }
+    
+    # Check payment status
+    invoice_id = parcel.get("invoice_id")
+    if not invoice_id:
+        return {
+            "can_collect": True,
+            "warning": "not_invoiced",
+            "message": "This parcel has not been invoiced yet.",
+            "requires_confirmation": True
+        }
+    
+    invoice = await db.invoices.find_one({"id": invoice_id, "tenant_id": tenant_id}, {"_id": 0})
+    if not invoice:
+        return {
+            "can_collect": True,
+            "warning": "invoice_not_found",
+            "message": "Invoice not found.",
+            "requires_confirmation": True
+        }
+    
+    invoice_status = invoice.get("status", "draft")
+    total_amount = invoice.get("total", 0)
+    paid_amount = invoice.get("paid_amount", 0)
+    outstanding = total_amount - paid_amount
+    
+    if invoice_status == "paid":
+        return {
+            "can_collect": True,
+            "payment_status": "paid",
+            "message": "Invoice fully paid. Safe to collect."
+        }
+    elif invoice_status == "partial":
+        return {
+            "can_collect": True,
+            "warning": "partial_payment",
+            "payment_status": "partial",
+            "total_amount": total_amount,
+            "paid_amount": paid_amount,
+            "outstanding": outstanding,
+            "message": f"Partial payment: R {paid_amount:.2f} paid, R {outstanding:.2f} outstanding.",
+            "requires_confirmation": True
+        }
+    else:
+        return {
+            "can_collect": True,
+            "warning": "unpaid",
+            "payment_status": invoice_status,
+            "total_amount": total_amount,
+            "outstanding": outstanding,
+            "message": f"UNPAID: R {total_amount:.2f} outstanding. Collection requires manager approval.",
+            "requires_confirmation": True,
+            "requires_admin_notification": True
+        }
+
+
+@router.post("/warehouse/parcels/{parcel_id}/collect")
+async def collect_parcel(
+    parcel_id: str,
+    request: Request,
+    data: dict = None,
+    tenant_id: str = Depends(get_tenant_id),
+    user: dict = Depends(get_current_user)
+):
+    """Marks a parcel as collected. Sends admin notification if unpaid. (Session G P-16)"""
+    if data is None:
+        data = {}
+    
+    confirmation_note = data.get("confirmation_note", "")
+    
+    parcel = await db.shipments.find_one({"id": parcel_id, "tenant_id": tenant_id}, {"_id": 0})
+    if not parcel:
+        raise HTTPException(status_code=404, detail="Parcel not found")
+    
+    if parcel.get("status") != "arrived":
+        raise HTTPException(status_code=400, detail=f"Parcel status is '{parcel.get('status')}'. Only 'arrived' parcels can be collected.")
+    
+    # Check payment status for notification
+    send_admin_notification = False
+    notification_message = ""
+    invoice_id = parcel.get("invoice_id")
+    
+    if invoice_id:
+        invoice = await db.invoices.find_one({"id": invoice_id, "tenant_id": tenant_id}, {"_id": 0})
+        if invoice and invoice.get("status") in ["draft", "sent", "overdue", "partial"]:
+            send_admin_notification = True
+            outstanding = invoice.get("total", 0) - invoice.get("paid_amount", 0)
+            notification_message = (
+                f"User {user.get('name', 'Unknown')} collected parcel {parcel_id[:8].upper()} "
+                f"with R {outstanding:.2f} outstanding. "
+                f"Invoice: {invoice.get('invoice_number', 'N/A')}. "
+                f"Note: {confirmation_note or 'None'}"
+            )
+    
+    # Update parcel status
+    now = datetime.now(timezone.utc).isoformat()
+    await db.shipments.update_one(
+        {"id": parcel_id, "tenant_id": tenant_id},
+        {"$set": {
+            "status": "collected",
+            "collected_at": now,
+            "collected_by": user["id"],
+            "collection_note": confirmation_note,
+            "updated_at": now
+        }}
+    )
+    
+    # Create audit log
+    await create_audit_log(
+        tenant_id=tenant_id,
+        user_id=user["id"],
+        action=AuditAction.status_change,
+        table_name="shipments",
+        record_id=parcel_id,
+        old_value={"status": "arrived"},
+        new_value={"status": "collected"},
+        ip_address=request.client.host if request.client else None
+    )
+    
+    # Send admin notification if unpaid
+    admin_notified = False
+    if send_admin_notification:
+        admins = await db.users.find(
+            {"tenant_id": tenant_id, "role": {"$in": ["owner", "manager"]}},
+            {"_id": 0}
+        ).to_list(50)
+        
+        for admin in admins:
+            await db.notifications.insert_one({
+                "id": str(__import__('uuid').uuid4()),
+                "tenant_id": tenant_id,
+                "user_id": admin["id"],
+                "type": "collection_warning",
+                "title": "Unpaid Parcel Collected",
+                "message": notification_message,
+                "parcel_id": parcel_id,
+                "invoice_id": invoice_id,
+                "read": False,
+                "created_at": now
+            })
+        admin_notified = True
+    
+    return {
+        "success": True,
+        "parcel_id": parcel_id,
+        "collected_at": now,
+        "admin_notified": admin_notified
+    }
+
+
 @router.post("/warehouse/scan-collect")
 async def scan_and_collect_parcel(
     request: Request,
