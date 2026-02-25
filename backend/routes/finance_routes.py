@@ -57,7 +57,7 @@ async def get_client_statements(
     tenant_id: str = Depends(get_tenant_id),
     user: dict = Depends(get_current_user),
     sort_by: str = "outstanding_desc",
-    show_paid: bool = False
+    show_paid: bool = True
 ):
     """
     Get all clients with their outstanding amounts grouped by trip.
