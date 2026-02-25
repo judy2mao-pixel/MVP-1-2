@@ -211,7 +211,7 @@ export function Dashboard() {
         </div>
 
         {/* Row 1: Revenue */}
-        <div>
+        <div className="bg-yellow-50/30 p-4 rounded-lg">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Revenue</p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <KpiTile
@@ -223,31 +223,116 @@ export function Dashboard() {
               isLoading={loading}
               icon={TrendingUp}
             />
-            <KpiTile label="Accounts Receivable" value={fmt(fin.accounts_receivable)} sub="Total open invoices" isLoading={loading} icon={DollarSign} href="/finance" />
-            <KpiTile label="Overdue Amount" value={fmt(fin.overdue_amount)} sub="Past due date" redBorder={fin.overdue_amount > 0} isLoading={loading} icon={AlertTriangle} href="/finance" />
-            <KpiTile label="Collection Rate" value={`${fin.collection_rate ?? 0}%`} sub="Of total invoiced" isLoading={loading} icon={BarChart2} />
+            <KpiTile 
+              label="Accounts Receivable" 
+              value={fmt(fin.accounts_receivable)} 
+              sub="Total open invoices" 
+              sparkline={fin.receivables_sparkline}
+              isLoading={loading} 
+              icon={DollarSign} 
+              href="/finance" 
+            />
+            <KpiTile 
+              label="Overdue Amount" 
+              value={fmt(fin.overdue_amount)} 
+              sub="Past due date" 
+              sparkline={fin.overdue_sparkline}
+              redBorder={fin.overdue_amount > 0} 
+              isLoading={loading} 
+              icon={AlertTriangle} 
+              href="/finance" 
+            />
+            <KpiTile 
+              label="Collection Rate" 
+              value={`${fin.collection_rate ?? 0}%`} 
+              sub="Of total invoiced" 
+              sparkline={fin.collection_rate_sparkline}
+              isLoading={loading} 
+              icon={BarChart2} 
+            />
           </div>
         </div>
 
         {/* Row 2: Operations */}
-        <div>
+        <div className="bg-green-50/30 p-4 rounded-lg">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Operations</p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <KpiTile label="In Warehouse" value={(ops.warehouse ?? 0).toLocaleString()} sub="parcels" isLoading={loading} icon={Warehouse} href="/warehouse" />
-            <KpiTile label="In Transit" value={(ops.in_transit ?? 0).toLocaleString()} sub="shipments" isLoading={loading} icon={Truck} href="/trips" />
-            <KpiTile label="Awaiting Collection" value={(ops.awaiting_collection ?? 0).toLocaleString()} sub="arrived parcels" isLoading={loading} icon={Clock} href="/warehouse" />
-            <KpiTile label="Uninvoiced Parcels" value={(ops.uninvoiced_parcels ?? 0).toLocaleString()} sub="no invoice attached" isLoading={loading} icon={Package} redBorder={ops.uninvoiced_parcels > 0} href="/finance" />
+            <KpiTile 
+              label="In Warehouse" 
+              value={(ops.warehouse ?? 0).toLocaleString()} 
+              sub="parcels" 
+              sparkline={ops.warehouse_sparkline}
+              isLoading={loading} 
+              icon={Warehouse} 
+              href="/warehouse" 
+            />
+            <KpiTile 
+              label="In Transit" 
+              value={(ops.in_transit ?? 0).toLocaleString()} 
+              sub="shipments" 
+              sparkline={ops.in_transit_sparkline}
+              isLoading={loading} 
+              icon={Truck} 
+              href="/trips" 
+            />
+            <KpiTile 
+              label="Awaiting Collection" 
+              value={(ops.awaiting_collection ?? 0).toLocaleString()} 
+              sub="arrived parcels" 
+              sparkline={ops.awaiting_collection_sparkline}
+              isLoading={loading} 
+              icon={Clock} 
+              href="/warehouse" 
+            />
+            <KpiTile 
+              label="Uninvoiced Parcels" 
+              value={(ops.uninvoiced_parcels ?? 0).toLocaleString()} 
+              sub="no invoice attached" 
+              sparkline={ops.uninvoiced_sparkline}
+              isLoading={loading} 
+              icon={Package} 
+              redBorder={ops.uninvoiced_parcels > 0} 
+              href="/finance" 
+            />
           </div>
         </div>
 
         {/* Row 3: Summary */}
-        <div>
+        <div className="bg-slate-50/30 p-4 rounded-lg">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-2">Summary</p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <KpiTile label="Active Clients" value={(stats?.total_clients ?? 0).toLocaleString()} isLoading={loading} icon={Users} href="/clients" />
-            <KpiTile label="Total Trips" value={(stats?.total_trips ?? 0).toLocaleString()} isLoading={loading} icon={Truck} href="/trips" />
-            <KpiTile label="Total Shipments" value={(stats?.total_shipments ?? 0).toLocaleString()} isLoading={loading} icon={Package} href="/shipments" />
-            <KpiTile label="Delivered" value={(ops.delivered ?? 0).toLocaleString()} sub="all time" isLoading={loading} icon={TrendingUp} />
+            <KpiTile 
+              label="Active Clients" 
+              value={(stats?.total_clients ?? 0).toLocaleString()} 
+              sparkline={stats?.total_clients_sparkline}
+              isLoading={loading} 
+              icon={Users} 
+              href="/clients" 
+            />
+            <KpiTile 
+              label="Total Trips" 
+              value={(stats?.total_trips ?? 0).toLocaleString()} 
+              sparkline={stats?.total_trips_sparkline}
+              isLoading={loading} 
+              icon={Truck} 
+              href="/trips" 
+            />
+            <KpiTile 
+              label="Total Shipments" 
+              value={(stats?.total_shipments ?? 0).toLocaleString()} 
+              sparkline={stats?.total_shipments_sparkline}
+              isLoading={loading} 
+              icon={Package} 
+              href="/shipments" 
+            />
+            <KpiTile 
+              label="Delivered" 
+              value={(ops.delivered ?? 0).toLocaleString()} 
+              sub="all time" 
+              sparkline={ops.delivered_sparkline}
+              isLoading={loading} 
+              icon={TrendingUp} 
+            />
           </div>
         </div>
       </div>
