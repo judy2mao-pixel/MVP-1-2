@@ -356,7 +356,8 @@ async def get_trip_worksheet(trip_id: str, tenant_id: str = Depends(get_tenant_i
             "route": trip.get("route", []),
             "departure_date": trip.get("departure_date"),
             "capacity_kg": capacity_kg,
-            "capacity_cbm": capacity_cbm
+            "capacity_cbm": capacity_cbm,
+            "vehicle": vehicle_info
         },
         "summary": {
             "total_revenue": round(total_revenue, 2),
