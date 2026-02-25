@@ -118,6 +118,7 @@ app.include_router(recipient_routes.router, prefix="/api", tags=["Recipients"])
 app.include_router(notes_routes.router, prefix="/api", tags=["Notes"])
 
 app.include_router(template_routes.router, prefix="/api", tags=["Templates"])
+app.include_router(printnode_routes.router, prefix="/api", tags=["PrintNode"])
 
 # Health check endpoint
 @app.get("/health")
