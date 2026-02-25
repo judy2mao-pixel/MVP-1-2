@@ -425,8 +425,8 @@ export function Clients() {
                   <Input
                     id="place_of_business"
                     placeholder="Primary business location"
-                    value={formData.place_of_business}
-                    onChange={(e) => setFormData({ ...formData, place_of_business: e.target.value })}
+                    value={formData.primary_place_of_business}
+                    onChange={(e) => setFormData({ ...formData, primary_place_of_business: e.target.value })}
                     data-testid="client-place-input"
                   />
                 </div>
@@ -435,8 +435,8 @@ export function Clients() {
                   <div className="space-y-2">
                     <Label htmlFor="relationship">Relationship Type</Label>
                     <Select
-                      value={formData.relationship_nature}
-                      onValueChange={(value) => setFormData({ ...formData, relationship_nature: value })}
+                      value={formData.nature_of_relationship}
+                      onValueChange={(value) => setFormData({ ...formData, nature_of_relationship: value })}
                     >
                       <SelectTrigger data-testid="client-relationship-select">
                         <SelectValue />
@@ -452,8 +452,8 @@ export function Clients() {
                   <div className="space-y-2">
                     <Label htmlFor="frequency">Shipping Frequency</Label>
                     <Select
-                      value={formData.frequency}
-                      onValueChange={(value) => setFormData({ ...formData, frequency: value })}
+                      value={formData.frequency_of_business}
+                      onValueChange={(value) => setFormData({ ...formData, frequency_of_business: value })}
                     >
                       <SelectTrigger data-testid="client-frequency-select">
                         <SelectValue />
@@ -472,16 +472,16 @@ export function Clients() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="estimated_value">Estimated Annual Value</Label>
+                  <Label htmlFor="estimated_value">Estimated Value Per Trip</Label>
                   <Input
                     id="estimated_value"
                     type="number"
                     placeholder="0.00"
-                    value={formData.estimated_value}
-                    onChange={(e) => setFormData({ ...formData, estimated_value: parseFloat(e.target.value) || 0 })}
+                    value={formData.estimated_value_per_trip}
+                    onChange={(e) => setFormData({ ...formData, estimated_value_per_trip: parseFloat(e.target.value) || 0 })}
                     data-testid="client-value-input"
                   />
-                  <p className="text-xs text-muted-foreground">Estimated annual shipping value in base currency</p>
+                  <p className="text-xs text-muted-foreground">Estimated value per shipment trip in base currency</p>
                 </div>
                 <DialogFooter>
                   <Button type="submit" data-testid="save-client-btn">
