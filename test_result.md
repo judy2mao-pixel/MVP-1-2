@@ -313,12 +313,23 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: |
-      Seed data created: 50 clients, 400 shipments, 12 trips, 121 invoices between JHB and NBO.
-      Fixed Parcel Intake 3rd row overlap and Warehouse filter button off screen.
-      Please test all backend APIs comprehensively with the seeded data.
+      ROUND 2: Implemented Session E, G, I features. New endpoints added:
+      1. GET /api/clients/export/csv - CSV export (tested, works)
+      2. POST /api/clients/import/csv - CSV import (file upload)
+      3. GET /api/warehouse/parcels/{id}/collection-check - Collection eligibility check (tested)
+      4. POST /api/warehouse/parcels/{id}/collect - Collect parcel with warning (tested)
+      5. GET /api/finance/client-statement/{client_id}/pdf - Client Statement PDF (tested, generates valid PDF)
+      6. Client schema extended with: position, primary_place_of_business, nature_of_relationship, owner, frequency_of_business, estimated_value_per_trip
+      7. Auto-calculate total_amount_spent on client GET
+      8. Expense attachment fields added to TripExpense schema
+      
+      Test the new endpoints plus verify existing ones still work.
       Login: admin@servex.com / Servex2026!
-      Backend URL: http://localhost:8001/api
-      Test especially: dashboard stats, finance endpoints, warehouse list/filter, client CRUD, trip listing, invoice operations.
+      
+      Test an arrived parcel collection-check + collect flow:
+      - First find an arrived parcel, then check collection eligibility, then collect it.
+      - Also test CSV export endpoint.
+      - Test client statement PDF generation.
   - agent: "testing"
     message: |
       Comprehensive backend API testing completed successfully - 100% success rate (20/20 tests passed).
