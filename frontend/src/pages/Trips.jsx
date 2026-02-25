@@ -507,7 +507,7 @@ export function Trips() {
               <Table>
                 <TableHeader>
                   <TableRow className="bg-gray-50">
-                    <TableHead className="w-[100px] font-semibold">Trip #</TableHead>
+                    <TableHead className="w-[140px] font-semibold">Trip #</TableHead>
                     <TableHead className="font-semibold">Route</TableHead>
                     <TableHead className="w-[130px] font-semibold">Date</TableHead>
                     <TableHead className="w-[120px] text-center font-semibold">Parcels</TableHead>
